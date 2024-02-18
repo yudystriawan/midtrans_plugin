@@ -1,6 +1,6 @@
 # midtrans_plugin
 
-A new Flutter project.
+A new Flutter plugin project.
 
 ## Getting Started
 
