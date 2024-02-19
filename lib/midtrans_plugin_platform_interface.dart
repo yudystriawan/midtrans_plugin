@@ -26,4 +26,12 @@ abstract class MidtransPluginPlatform extends PlatformInterface {
   Future<String?> getPlatformVersion() {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }
+
+  Future<bool?> initialize() {
+    throw UnimplementedError('initialize() has not been implemented.');
+  }
+
+  Future<void> startPayment() {
+    throw UnimplementedError('startPayment() has not been implemented.');
+  }
 }

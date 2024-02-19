@@ -11,7 +11,19 @@ class MethodChannelMidtransPlugin extends MidtransPluginPlatform {
 
   @override
   Future<String?> getPlatformVersion() async {
-    final version = await methodChannel.invokeMethod<String>('getPlatformVersion');
+    final version =
+        await methodChannel.invokeMethod<String>('getPlatformVersion');
     return version;
+  }
+
+  @override
+  Future<bool?> initialize() async {
+    final result = await methodChannel.invokeMethod<bool?>('initialize');
+    return result;
+  }
+
+  @override
+  Future<void> startPayment() async {
+    return await methodChannel.invokeMethod('startPayment');
   }
 }
