@@ -18,6 +18,7 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+        maven { url "https://jitpack.io" }
     }
 }
 
@@ -65,4 +66,9 @@ android {
             }
         }
     }
+}
+
+dependencies {
+    // For using the Midtrans Sandbox
+    implementation 'com.midtrans:uikit:2.0.0-SANDBOX'
 }
