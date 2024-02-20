@@ -1,10 +1,20 @@
-import 'package:flutter/material.dart';
 import 'dart:async';
+import 'dart:math';
 
-import 'package:flutter/services.dart';
+import 'package:flutter/material.dart';
 import 'package:midtrans_plugin/midtrans_plugin.dart';
+import 'package:midtrans_plugin/models/midtrans_config.dart';
+import 'package:midtrans_plugin/models/midtrans_payload.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  final config = MidtransConfig(
+    merchantClientKey: 'SB-Mid-client-V8p1M-DRoTXmhvsz',
+    merchantUrl: 'https://midtrans-server.web.app/api/',
+  );
+  await MidtransPlugin.initialize(config);
+
   runApp(const MyApp());
 }
 
@@ -16,34 +26,28 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _platformVersion = 'Unknown';
-  final _midtransPlugin = MidtransPlugin();
+  String _message = '';
+  bool _isLoading = false;
+
+  final _midtransPlugin = MidtransPlugin.instance;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
   @override
   void initState() {
     super.initState();
-    initPlatformState();
-  }
+    _midtransPlugin.setTransactionResultCallback((result) {
+      final transactionID = result.transactionId;
+      final status = result.status;
 
-  // Platform messages are asynchronous, so we initialize in an async method.
-  Future<void> initPlatformState() async {
-    String platformVersion;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    // We also handle the message potentially returning null.
-    try {
-      platformVersion =
-          await _midtransPlugin.getPlatformVersion() ?? 'Unknown platform version';
-    } on PlatformException {
-      platformVersion = 'Failed to get platform version.';
-    }
+      String message = '';
+      if (transactionID != null && transactionID.isNotEmpty) {
+        message += 'transactionID: $transactionID';
+      }
+      if (status != null && status.isNotEmpty) message += ' $status';
 
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    if (!mounted) return;
-
-    setState(() {
-      _platformVersion = platformVersion;
+      ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(
+        SnackBar(content: Text(message)),
+      );
     });
   }
 
@@ -51,11 +55,62 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        key: _scaffoldKey,
         appBar: AppBar(
           title: const Text('Plugin example app'),
         ),
         body: Center(
-          child: Text('Running on: $_platformVersion\n'),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (_message.isNotEmpty) Text(_message),
+              if (_isLoading)
+                const CircularProgressIndicator.adaptive()
+              else
+                ElevatedButton(
+                  onPressed: () async {
+                    setState(() {
+                      _isLoading = true;
+                      _message = '';
+                    });
+
+                    try {
+                      Random random = Random();
+                      int randomNumber = random.nextInt(
+                          10000); // Change 10000 to the desired upper limit
+                      String orderId = 'ORDER-$randomNumber';
+                      const grossAmount = 10.0;
+
+                      await _midtransPlugin.startPayment(
+                        MidtransPayload(
+                          transactionDetails: TransactionDetails(
+                            orderId: orderId,
+                            grossAmount: grossAmount,
+                          ),
+                          itemDetails: [
+                            ItemDetail(
+                              price: 10.0,
+                              quantity: 1,
+                              name: 'Product A',
+                            )
+                          ],
+                        ),
+                      );
+
+                      setState(() {
+                        _isLoading = false;
+                      });
+                    } catch (e) {
+                      setState(() {
+                        _isLoading = false;
+                        _message = 'Cannot pay';
+                      });
+                    }
+                  },
+                  child: const Text('Pay'),
+                ),
+            ],
+          ),
         ),
       ),
     );

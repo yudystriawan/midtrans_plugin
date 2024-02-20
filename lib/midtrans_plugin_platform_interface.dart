@@ -1,3 +1,5 @@
+import 'package:midtrans_plugin/models/midtrans_config.dart';
+import 'package:midtrans_plugin/models/midtrans_payload.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 import 'midtrans_plugin_method_channel.dart';
@@ -23,7 +25,11 @@ abstract class MidtransPluginPlatform extends PlatformInterface {
     _instance = instance;
   }
 
-  Future<String?> getPlatformVersion() {
-    throw UnimplementedError('platformVersion() has not been implemented.');
+  Future<bool?> initialize(MidtransConfig config) {
+    throw UnimplementedError('initialize() has not been implemented.');
+  }
+
+  Future<void> startPayment(MidtransPayload payload) {
+    throw UnimplementedError('startPayment() has not been implemented.');
   }
 }
