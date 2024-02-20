@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:midtrans_plugin/models/midtrans_config.dart';
 
 import 'midtrans_plugin_platform_interface.dart';
 
@@ -10,20 +11,21 @@ class MethodChannelMidtransPlugin extends MidtransPluginPlatform {
   final methodChannel = const MethodChannel('midtrans_plugin');
 
   @override
-  Future<String?> getPlatformVersion() async {
-    final version =
-        await methodChannel.invokeMethod<String>('getPlatformVersion');
-    return version;
-  }
-
-  @override
-  Future<bool?> initialize() async {
-    final result = await methodChannel.invokeMethod<bool?>('initialize');
-    return result;
+  Future<bool?> initialize(MidtransConfig config) async {
+    try {
+      final arguments = config.toJson();
+      return await methodChannel.invokeMethod<bool?>('initialize', arguments);
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
   Future<void> startPayment() async {
-    return await methodChannel.invokeMethod('startPayment');
+    try {
+      return await methodChannel.invokeMethod('startPayment');
+    } catch (e) {
+      rethrow;
+    }
   }
 }

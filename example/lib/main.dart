@@ -1,10 +1,18 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:midtrans_plugin/midtrans_plugin.dart';
+import 'package:midtrans_plugin/models/midtrans_config.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  final config = MidtransConfig(
+    merchantClientKey: 'SB-Mid-client-V8p1M-DRoTXmhvsz',
+    merchantUrl: 'https://midtrans-server.web.app/api/',
+  );
+  await MidtransPlugin.initialize(config);
+
   runApp(const MyApp());
 }
 
@@ -17,32 +25,14 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String _message = '';
-  bool _isInitialized = false;
+
   bool _isLoading = false;
 
-  final _midtransPlugin = MidtransPlugin();
+  final _midtransPlugin = MidtransPlugin.instance;
 
   @override
   void initState() {
     super.initState();
-    initialize();
-  }
-
-  Future<void> initialize() async {
-    bool isInitialized = false;
-    String message = '';
-
-    try {
-      isInitialized = await _midtransPlugin.initialize() ?? false;
-    } on PlatformException {
-      message = 'Something went wrong';
-      isInitialized = false;
-    }
-
-    setState(() {
-      _isInitialized = isInitialized;
-      _message = message;
-    });
   }
 
   @override
@@ -61,27 +51,25 @@ class _MyAppState extends State<MyApp> {
                 const CircularProgressIndicator.adaptive()
               else
                 ElevatedButton(
-                  onPressed: _isInitialized
-                      ? () async {
-                          setState(() {
-                            _isLoading = true;
-                            _message = '';
-                          });
+                  onPressed: () async {
+                    setState(() {
+                      _isLoading = true;
+                      _message = '';
+                    });
 
-                          try {
-                            await _midtransPlugin.startPayment();
+                    try {
+                      await _midtransPlugin.startPayment();
 
-                            setState(() {
-                              _isLoading = false;
-                            });
-                          } catch (e) {
-                            setState(() {
-                              _isLoading = false;
-                              _message = 'Cannot pay';
-                            });
-                          }
-                        }
-                      : null,
+                      setState(() {
+                        _isLoading = false;
+                      });
+                    } catch (e) {
+                      setState(() {
+                        _isLoading = false;
+                        _message = 'Cannot pay';
+                      });
+                    }
+                  },
                   child: const Text('Pay'),
                 ),
             ],
