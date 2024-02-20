@@ -36,12 +36,17 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     _midtransPlugin.setTransactionResultCallback((result) {
+      final transactionID = result.transactionId;
+      final status = result.status;
+
+      String message = '';
+      if (transactionID != null && transactionID.isNotEmpty) {
+        message += 'transactionID: $transactionID';
+      }
+      if (status != null && status.isNotEmpty) message += ' $status';
+
       ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(
-        SnackBar(
-          content: Text(
-            'TransactionId: ${result.transactionId} ${result.status}',
-          ),
-        ),
+        SnackBar(content: Text(message)),
       );
     });
   }

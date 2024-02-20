@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.Activity.RESULT_OK
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.result.ActivityResultLauncher
@@ -22,7 +23,6 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
-import com.midtrans.sdk.uikit.internal.util.UiKitConstants.STATUS_SUCCESS
 
 
 /** MidtransPlugin */
@@ -56,16 +56,19 @@ class MidtransPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
 		channel.setMethodCallHandler(null)
 	}
 
+	@Suppress("DEPRECATION")
 	override fun onAttachedToActivity(binding: ActivityPluginBinding) {
 		activity = binding.activity
-
-//		binding.addActivityResultListener(this)
 
 		launcher = (activity as ComponentActivity).registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
 			if (result?.resultCode == RESULT_OK) {
 				result.data?.let {
-					val transactionResult = it.getParcelableExtra<TransactionResult>(UiKitConstants.KEY_TRANSACTION_RESULT)
-					Log.d("[Transaction Result]", "status:${transactionResult?.status} \nid: ${transactionResult?.transactionId}")
+					val transactionResult = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+						it.getParcelableExtra(UiKitConstants.KEY_TRANSACTION_RESULT, TransactionResult::class.java)
+					} else {
+						it.getParcelableExtra(UiKitConstants.KEY_TRANSACTION_RESULT)
+					}
+					Log.d("[Transaction Result]", "${transactionResult?.transactionId.let { id -> "TransactionID: $id" }} ${transactionResult?.status}")
 					val arguments = mapOf("message" to transactionResult?.message, "paymentType" to transactionResult?.paymentType, "status" to transactionResult?.status, "transactionId" to transactionResult?.transactionId)
 					channel.invokeMethod("transactionResult", arguments)
 				}
@@ -107,7 +110,7 @@ class MidtransPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
 
 			result.success(true)
 		} catch (e: Exception) {
-			result.error("InternalError", "Cannot initialize", e);
+			result.error("InternalError", "Cannot initialize", e)
 		}
 	}
 
@@ -154,54 +157,4 @@ class MidtransPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
 			result.error("InternalError", "Something went wrong", e)
 		}
 	}
-
-//	override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?): Boolean {
-//		if (resultCode == RESULT_OK) {
-//			val transactionResult = data?.getParcelableExtra<TransactionResult>(
-//					UiKitConstants.KEY_TRANSACTION_RESULT
-//			)
-//			if (transactionResult != null) {
-//				when (transactionResult.status) {
-//					STATUS_SUCCESS -> {
-//						Log.d("[Transaction Result]", "${transactionResult.status}: ${transactionResult.transactionId}")
-//						Toast.makeText(context, "Transaction Finished. ID: " + transactionResult.transactionId, Toast.LENGTH_LONG).show()
-//					}
-//
-//					STATUS_PENDING -> {
-//						Log.d("[Transaction Result]", "${transactionResult.status}: ${transactionResult.transactionId}")
-//						Toast.makeText(context, "Transaction Pending. ID: " + transactionResult.transactionId, Toast.LENGTH_LONG).show()
-//					}
-//
-//					STATUS_FAILED -> {
-//						Log.d("[Transaction Result]", "${transactionResult.status}: ${transactionResult.transactionId}")
-//
-//						Toast.makeText(context, "Transaction Failed. ID: " + transactionResult.transactionId, Toast.LENGTH_LONG).show()
-//					}
-//
-//					STATUS_CANCELED -> {
-//						Log.d("[Transaction Result]", "${transactionResult.status}: ${transactionResult.transactionId}")
-//
-//						Toast.makeText(context, "Transaction Cancelled", Toast.LENGTH_LONG).show()
-//					}
-//
-//					STATUS_INVALID -> {
-//						Log.d("[Transaction Result]", "${transactionResult.status}: ${transactionResult.transactionId}")
-//
-//						Toast.makeText(context, "Transaction Invalid. ID: " + transactionResult.transactionId, Toast.LENGTH_LONG).show()
-//					}
-//
-//					else -> {
-//						Log.d("[Transaction Result]", "${transactionResult.status}: ${transactionResult.transactionId}")
-//
-//						Toast.makeText(context, "Transaction ID: " + transactionResult.transactionId + ". Message: " + transactionResult.status, Toast.LENGTH_LONG).show()
-//					}
-//				}
-//			} else {
-//				Log.d("[Transaction Result]", "Transaction Invalid")
-//				Toast.makeText(context, "Transaction Invalid", Toast.LENGTH_LONG).show()
-//			}
-//		}
-//		return true;
-//	}
-
 }
