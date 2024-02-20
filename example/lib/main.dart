@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:midtrans_plugin/midtrans_plugin.dart';
 import 'package:midtrans_plugin/models/midtrans_config.dart';
+import 'package:midtrans_plugin/models/midtrans_payload.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,20 +27,30 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String _message = '';
-
   bool _isLoading = false;
 
   final _midtransPlugin = MidtransPlugin.instance;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
   @override
   void initState() {
     super.initState();
+    _midtransPlugin.setTransactionResultCallback((result) {
+      ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(
+        SnackBar(
+          content: Text(
+            'TransactionId: ${result.transactionId} ${result.status}',
+          ),
+        ),
+      );
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        key: _scaffoldKey,
         appBar: AppBar(
           title: const Text('Plugin example app'),
         ),
@@ -58,7 +70,27 @@ class _MyAppState extends State<MyApp> {
                     });
 
                     try {
-                      await _midtransPlugin.startPayment();
+                      Random random = Random();
+                      int randomNumber = random.nextInt(
+                          10000); // Change 10000 to the desired upper limit
+                      String orderId = 'ORDER-$randomNumber';
+                      const grossAmount = 10.0;
+
+                      await _midtransPlugin.startPayment(
+                        MidtransPayload(
+                          transactionDetails: TransactionDetails(
+                            orderId: orderId,
+                            grossAmount: grossAmount,
+                          ),
+                          itemDetails: [
+                            ItemDetail(
+                              price: 10.0,
+                              quantity: 1,
+                              name: 'Product A',
+                            )
+                          ],
+                        ),
+                      );
 
                       setState(() {
                         _isLoading = false;
