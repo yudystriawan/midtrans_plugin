@@ -1,36 +1,55 @@
 typedef TransactionResultCallback = void Function(TransactionResult result);
 
 class TransactionResult {
-  final String? message;
+  final String? statusMessage;
   final String? paymentType;
-  final String? status;
+  final String? transactionStatus;
   final String? transactionId;
+  final String? orderId;
+  final bool isCanceled;
+  final bool isFailed;
 
   TransactionResult({
-    this.message,
+    this.statusMessage,
     this.paymentType,
-    this.status,
+    this.transactionStatus,
     this.transactionId,
+    this.orderId,
+    this.isCanceled = false,
+    this.isFailed = false,
   });
 
   factory TransactionResult.fromJson(Map<String, dynamic> json) {
     return TransactionResult(
-      message: json['message'],
+      statusMessage: json['statusMessage'],
       paymentType: json['paymentType'],
-      status: json['status'],
+      transactionStatus: json['transactionStatus'],
       transactionId: json['transactionId'],
+      orderId: json['orderId'],
+      isCanceled: json['isCanceled'] ?? false,
+      isFailed: json['isFailed'] ?? false,
     );
   }
 
   Map<String, dynamic> toJson() => {
-        'message': message,
+        'statusMessage': statusMessage,
         'paymentType': paymentType,
-        'status': status,
+        'transactionStatus': transactionStatus,
         'transactionId': transactionId,
+        'orderId': orderId,
+        'isCanceled': isCanceled,
+        'isFailed': isFailed,
       };
 
   @override
   String toString() {
-    return 'TransactionResult(message: $message, paymentType: $paymentType, status: $status, transactionId: $transactionId)';
+    return 'TransactionResult('
+        'message: $statusMessage, '
+        'paymentType: $paymentType, '
+        'status: $transactionStatus, '
+        'transactionId: $transactionId, '
+        'orderId: $orderId, '
+        'isCanceled: $isCanceled, '
+        'isFailed: $isFailed)';
   }
 }
