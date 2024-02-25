@@ -17,7 +17,7 @@ class TransactionDetails {
 }
 
 class ItemDetail {
-  final String? id;
+  final String id;
   final double price;
   final int quantity;
   final String name;
@@ -27,7 +27,7 @@ class ItemDetail {
   final String? url;
 
   ItemDetail({
-    this.id,
+    required this.id,
     required this.price,
     required this.quantity,
     required this.name,
