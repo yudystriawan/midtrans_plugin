@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:math';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:midtrans_plugin/midtrans_plugin.dart';
@@ -36,10 +36,15 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     _midtransPlugin.setTransactionResultCallback((result) {
+      log('[transactionResult] $result');
       final transactionID = result.transactionId;
-      final status = result.status;
+      final status = result.transactionStatus;
 
       String message = '';
+      if (result.isCanceled) message = 'Canceled';
+
+      if (result.isFailed) message = 'Payment failed';
+
       if (transactionID != null && transactionID.isNotEmpty) {
         message += 'transactionID: $transactionID';
       }
@@ -75,10 +80,8 @@ class _MyAppState extends State<MyApp> {
                     });
 
                     try {
-                      Random random = Random();
-                      int randomNumber = random.nextInt(
-                          10000); // Change 10000 to the desired upper limit
-                      String orderId = 'ORDER-$randomNumber';
+                      String orderId =
+                          'ORDER-${DateTime.now().millisecondsSinceEpoch}';
                       const grossAmount = 10.0;
 
                       await _midtransPlugin.startPayment(
@@ -89,6 +92,7 @@ class _MyAppState extends State<MyApp> {
                           ),
                           itemDetails: [
                             ItemDetail(
+                              id: 'product_a',
                               price: 10.0,
                               quantity: 1,
                               name: 'Product A',
