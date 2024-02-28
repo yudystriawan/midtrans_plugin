@@ -33,7 +33,8 @@ FlutterMethodChannel* channel;
   return [UIApplication sharedApplication].keyWindow.rootViewController;
 }
 
-- (void)initializeWithCall:(FlutterMethodCall*)call result:(FlutterResult)result{
+- (void)initializeWithCall:(FlutterMethodCall*)call
+                    result:(FlutterResult)result{
   @try {
     NSString *merchantUrl = call.arguments[@"merchantUrl"];
     NSString *merchantClientKey = call.arguments[@"merchantClientKey"];
@@ -44,11 +45,18 @@ FlutterMethodChannel* channel;
     NSDictionary *bcaVaJson = [call.arguments objectForKey:@"bcaVa"];
     NSDictionary *bniVaJson = [call.arguments objectForKey:@"bniVa"];
     NSString *paymentTypeConfig = [call.arguments objectForKey:@"peymentTypeConfig"];
+    BOOL isProduction = [call.arguments[@"environment"] isEqualToString:@"production"];
     
+    MidtransServerEnvironment serverEnvironment = MidtransServerEnvironmentSandbox;
+    if (isProduction) {
+      serverEnvironment = MidtransServerEnvironmentProduction;
+    }
     
     // initialize Midtrans
     NSLog(@"[initialize] initializing with clientKey:%@ and merchantUrl:%@.", merchantClientKey, merchantUrl);
-    [[MidtransConfig shared]setClientKey:merchantClientKey environment:MidtransServerEnvironmentSandbox merchantServerURL:merchantUrl];
+    [[MidtransConfig shared]setClientKey:merchantClientKey
+                             environment:serverEnvironment
+                       merchantServerURL:merchantUrl];
     
     // enable logger for debugging purpose
     if (enableLog) {
@@ -184,13 +192,13 @@ FlutterMethodChannel* channel;
       }
       
       customerDetails = [[MidtransCustomerDetails new] initWithFirstName:customerDetailsJson[@"firstName"]
-                                                                  lastName:customerDetailsJson[@"lastName"]
-                                                                     email:customerDetailsJson[@"email"]
-                                                                     phone:customerDetailsJson[@"phone"]
-                                                           shippingAddress:shippingAddress
-                                                            billingAddress:billingAddress];
+                                                                lastName:customerDetailsJson[@"lastName"]
+                                                                   email:customerDetailsJson[@"email"]
+                                                                   phone:customerDetailsJson[@"phone"]
+                                                         shippingAddress:shippingAddress
+                                                          billingAddress:billingAddress];
     }
-
+    
     
     // get expiry
     NSDictionary *expiryJson = [call.arguments objectForKey:@"expiry"];
