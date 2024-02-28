@@ -1,6 +1,6 @@
 /// Configuration class for Midtrans integration.
 ///
-/// Use this class to configure Midtrans SDK with your merchant information and settings.
+/// Use this class to configure the Midtrans SDK with your merchant information and settings.
 class MidtransConfig {
   /// Your Midtrans client key provided by the merchant dashboard.
   final String merchantClientKey;
@@ -11,9 +11,12 @@ class MidtransConfig {
   /// Whether logging is enabled or not. Default is `true`.
   final bool enableLog;
 
+  /// The environment for the Midtrans configuration.
+  final MidtransEnvironment environment;
+
   /// URL to handle GoPay callback.
   ///
-  /// For more information about GoPay callback configuration, see:
+  /// For more information about GoPay callback configuration, visit:
   /// - [GoPay iOS Configuration](https://docs.midtrans.com/reference/features-1#gopay-ios-configuration)
   /// - [GoPay Android Configuration](https://docs.midtrans.com/reference/features-1#gopay-android-configuration)
   final String? gopayCallbackUrl;
@@ -43,6 +46,7 @@ class MidtransConfig {
     required this.merchantClientKey,
     required this.merchantUrl,
     this.enableLog = true,
+    this.environment = MidtransEnvironment.sandbox,
     this.gopayCallbackUrl,
     this.shopeePayCallbackUrl,
     this.permataVa,
@@ -57,6 +61,7 @@ class MidtransConfig {
       'merchantClientKey': merchantClientKey,
       'merchantUrl': merchantUrl,
       'enableLog': enableLog,
+      'environment': environment.toString().split('.').last,
       'gopayCallbackUrl': gopayCallbackUrl,
       'shopeePayCallbackUrl': shopeePayCallbackUrl,
       'permataVa': permataVa?.toJson(),
@@ -127,13 +132,22 @@ class BniVa {
 
 /// Enum representing payment type configuration.
 enum PaymentTypeConfig {
-  /// Two clicks payment configuration.
+  /// Configuration for Two Clicks Payment.
   ///
   /// For more information, see [Two Clicks Payment](https://docs.midtrans.com/reference/features-1#two-clicks-payment).
   twoClickPayment,
 
-  /// One click payment configuration.
+  /// Configuration for One Click Payment.
   ///
   /// For more information, see [One Click Payment](https://docs.midtrans.com/reference/features-1#one-click-payment).
   oneClickPayment,
+}
+
+/// Enum representing the Midtrans environment.
+enum MidtransEnvironment {
+  /// Sandbox environment for testing.
+  sandbox,
+
+  /// Production environment for live transactions.
+  production,
 }
