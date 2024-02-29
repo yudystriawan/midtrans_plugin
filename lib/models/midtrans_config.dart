@@ -11,9 +11,6 @@ class MidtransConfig {
   /// Whether logging is enabled or not. Default is `true`.
   final bool enableLog;
 
-  /// The environment for the Midtrans configuration.
-  final MidtransEnvironment environment;
-
   /// URL to handle GoPay callback.
   ///
   /// For more information about GoPay callback configuration, visit:
@@ -46,7 +43,6 @@ class MidtransConfig {
     required this.merchantClientKey,
     required this.merchantUrl,
     this.enableLog = true,
-    this.environment = MidtransEnvironment.sandbox,
     this.gopayCallbackUrl,
     this.shopeePayCallbackUrl,
     this.permataVa,
@@ -61,7 +57,6 @@ class MidtransConfig {
       'merchantClientKey': merchantClientKey,
       'merchantUrl': merchantUrl,
       'enableLog': enableLog,
-      'environment': environment.toString().split('.').last,
       'gopayCallbackUrl': gopayCallbackUrl,
       'shopeePayCallbackUrl': shopeePayCallbackUrl,
       'permataVa': permataVa?.toJson(),
@@ -141,13 +136,4 @@ enum PaymentTypeConfig {
   ///
   /// For more information, see [One Click Payment](https://docs.midtrans.com/reference/features-1#one-click-payment).
   oneClickPayment,
-}
-
-/// Enum representing the Midtrans environment.
-enum MidtransEnvironment {
-  /// Sandbox environment for testing.
-  sandbox,
-
-  /// Production environment for live transactions.
-  production,
 }

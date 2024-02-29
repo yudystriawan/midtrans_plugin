@@ -45,11 +45,10 @@ FlutterMethodChannel* channel;
     NSDictionary *bcaVaJson = [call.arguments objectForKey:@"bcaVa"];
     NSDictionary *bniVaJson = [call.arguments objectForKey:@"bniVa"];
     NSString *paymentTypeConfig = [call.arguments objectForKey:@"peymentTypeConfig"];
-    BOOL isProduction = [call.arguments[@"environment"] isEqualToString:@"production"];
     
-    MidtransServerEnvironment serverEnvironment = MidtransServerEnvironmentSandbox;
-    if (isProduction) {
-      serverEnvironment = MidtransServerEnvironmentProduction;
+    MidtransServerEnvironment serverEnvironment = MidtransServerEnvironmentProduction;
+    if (DEBUG) {
+      serverEnvironment = MidtransServerEnvironmentSandbox;
     }
     
     // initialize Midtrans
