@@ -46,10 +46,10 @@ FlutterMethodChannel* channel;
     NSDictionary *bniVaJson = [call.arguments objectForKey:@"bniVa"];
     NSString *paymentTypeConfig = [call.arguments objectForKey:@"peymentTypeConfig"];
     
-    MidtransServerEnvironment serverEnvironment = MidtransServerEnvironmentProduction;
-    if (DEBUG) {
-      serverEnvironment = MidtransServerEnvironmentSandbox;
-    }
+    MidtransServerEnvironment serverEnvironment = MidtransServerEnvironmentSandbox;
+    #ifndef DEBUG
+        serverEnvironment = MidtransServerEnvironmentProduction;
+    #endif
     
     // initialize Midtrans
     NSLog(@"[initialize] initializing with clientKey:%@ and merchantUrl:%@.", merchantClientKey, merchantUrl);
