@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:math';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:midtrans_plugin/midtrans_plugin.dart';
@@ -12,6 +12,7 @@ Future<void> main() async {
   final config = MidtransConfig(
     merchantClientKey: 'SB-Mid-client-V8p1M-DRoTXmhvsz',
     merchantUrl: 'https://midtrans-server.web.app/api/',
+    paymentTypeConfig: PaymentTypeConfig.twoClickPayment,
   );
   await MidtransPlugin.initialize(config);
 
@@ -36,10 +37,15 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     _midtransPlugin.setTransactionResultCallback((result) {
+      log('[transactionResult] $result');
       final transactionID = result.transactionId;
-      final status = result.status;
+      final status = result.transactionStatus;
 
       String message = '';
+      if (result.isCanceled) message = 'Canceled';
+
+      if (result.isFailed) message = 'Payment failed';
+
       if (transactionID != null && transactionID.isNotEmpty) {
         message += 'transactionID: $transactionID';
       }
@@ -75,25 +81,41 @@ class _MyAppState extends State<MyApp> {
                     });
 
                     try {
-                      Random random = Random();
-                      int randomNumber = random.nextInt(
-                          10000); // Change 10000 to the desired upper limit
-                      String orderId = 'ORDER-$randomNumber';
-                      const grossAmount = 10.0;
+                      final transactionDetails = TransactionDetails(
+                        orderId:
+                            'ORDER-${DateTime.now().millisecondsSinceEpoch}',
+                        grossAmount: 10.0,
+                      );
+
+                      final itemDetails = [
+                        ItemDetail(
+                          id: 'product_a',
+                          price: 10.0,
+                          quantity: 1,
+                          name: 'Product A',
+                        )
+                      ];
+
+                      final customerDetails = CustomerDetails(
+                        firstName: 'John',
+                        lastName: 'Doe',
+                        email: 'john@example.com',
+                        phone: '08123456789',
+                        billingAddress: BillingAddress(
+                          firstName: 'John',
+                          lastName: 'Doe',
+                          address: 'Jl. Buntu No. 2',
+                          city: 'Jakarta',
+                          phone: '08123456789',
+                          postalCode: '112233',
+                        ),
+                      );
 
                       await _midtransPlugin.startPayment(
                         MidtransPayload(
-                          transactionDetails: TransactionDetails(
-                            orderId: orderId,
-                            grossAmount: grossAmount,
-                          ),
-                          itemDetails: [
-                            ItemDetail(
-                              price: 10.0,
-                              quantity: 1,
-                              name: 'Product A',
-                            )
-                          ],
+                          transactionDetails: transactionDetails,
+                          itemDetails: itemDetails,
+                          customerDetails: customerDetails,
                         ),
                       );
 

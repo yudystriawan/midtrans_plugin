@@ -1,95 +1,145 @@
+/// Represents the details of a transaction.
 class TransactionDetails {
+  /// The order ID associated with the transaction.
   final String orderId;
-  final double grossAmount;
-  final String? currency;
 
+  /// The gross amount of the transaction.
+  final double grossAmount;
+
+  /// Creates a new instance of [TransactionDetails].
+  ///
+  /// [orderId] is the unique identifier for the order.
+  /// [grossAmount] is the total amount of the transaction.
   TransactionDetails({
     required this.orderId,
     required this.grossAmount,
-    this.currency = "IDR",
   });
 
+  /// Converts the transaction details to a JSON representation.
   Map<String, dynamic> toJson() => {
         'orderId': orderId,
         'grossAmount': grossAmount,
-        'currency': currency,
       }..removeWhere((key, value) => value == null);
 }
 
+/// Represents details of an item.
 class ItemDetail {
-  final String? id;
-  final double price;
-  final int quantity;
-  final String name;
-  final String? brand;
-  final String? category;
-  final String? merchantName;
-  final String? url;
+  /// The unique identifier for the item.
+  final String id;
 
+  /// The price of the item.
+  final double price;
+
+  /// The quantity of the item.
+  final int quantity;
+
+  /// The name of the item.
+  final String name;
+
+  /// The URL of the item's image.
+  final String? imageUrl;
+
+  /// Creates a new instance of [ItemDetail].
+  ///
+  /// [id] is the unique identifier for the item.
+  /// [price] is the price of the item.
+  /// [quantity] is the quantity of the item.
+  /// [name] is the name of the item.
+  /// [imageUrl] is the URL of the item's image.
   ItemDetail({
-    this.id,
+    required this.id,
     required this.price,
     required this.quantity,
     required this.name,
-    this.brand,
-    this.category,
-    this.merchantName,
-    this.url,
+    this.imageUrl,
   });
 
+  /// Converts the item details to a JSON representation.
   Map<String, dynamic> toJson() => {
         'id': id,
         'price': price,
         'quantity': quantity,
         'name': name,
-        'brand': brand,
-        'category': category,
-        'merchantName': merchantName,
-        'url': url,
+        'imageUrl': imageUrl,
       }..removeWhere((key, value) => value == null);
 }
 
+/// Represents the billing address of a customer.
 class BillingAddress {
+  /// The first name of the customer.
   final String? firstName;
-  final String? lastName;
-  final String? email;
-  final String? phone;
-  final String? address;
-  final String? city;
-  final String? postalCode;
-  final String? countryCode;
 
+  /// The last name of the customer.
+  final String? lastName;
+
+  /// The phone number of the customer.
+  final String? phone;
+
+  /// The address of the customer.
+  final String? address;
+
+  /// The city of the customer.
+  final String? city;
+
+  /// The postal code of the customer.
+  final String? postalCode;
+
+  /// Creates a new instance of [BillingAddress].
+  ///
+  /// [firstName] is the first name of the customer.
+  /// [lastName] is the last name of the customer.
+  /// [phone] is the phone number of the customer.
+  /// [address] is the address of the customer.
+  /// [city] is the city of the customer.
+  /// [postalCode] is the postal code of the customer.
   BillingAddress({
     this.firstName,
     this.lastName,
-    this.email,
     this.phone,
     this.address,
     this.city,
     this.postalCode,
-    this.countryCode,
   });
 
+  /// Converts the billing address to a JSON representation.
   Map<String, dynamic> toJson() => {
         'firstName': firstName,
         'lastName': lastName,
-        'email': email,
         'phone': phone,
         'address': address,
         'city': city,
         'postalCode': postalCode,
-        'countryCode': countryCode,
       }..removeWhere((key, value) => value == null);
 }
 
+/// Represents the details of a customer.
 class CustomerDetails {
+  /// The first name of the customer.
   final String? firstName;
+
+  /// The last name of the customer.
   final String? lastName;
+
+  /// The email address of the customer.
   final String? email;
+
+  /// The phone number of the customer.
   final String? phone;
+
+  /// The billing address of the customer.
   final BillingAddress? billingAddress;
+
+  /// The shipping address of the customer.
   final BillingAddress? shippingAddress;
 
+  /// Creates a new instance of [CustomerDetails].
+  ///
+  /// [firstName] is the first name of the customer.
+  /// [lastName] is the last name of the customer.
+  /// [email] is the email address of the customer.
+  /// [phone] is the phone number of the customer.
+  /// [billingAddress] is the billing address of the customer.
+  /// [shippingAddress] is the shipping address of the customer.
   CustomerDetails({
     this.firstName,
     this.lastName,
@@ -99,6 +149,7 @@ class CustomerDetails {
     this.shippingAddress,
   });
 
+  /// Converts the customer details to a JSON representation.
   Map<String, dynamic> toJson() => {
         'firstName': firstName,
         'lastName': lastName,
@@ -109,312 +160,80 @@ class CustomerDetails {
       }..removeWhere((key, value) => value == null);
 }
 
-class CreditCardInstallmentTerms {
-  final List<int> bni;
-  final List<int> mandiri;
-  final List<int> cimb;
-  final List<int> bca;
-  final List<int> offline;
+/// Represents the unit for expiry duration.
+enum ExpireUnit {
+  /// Minutes.
+  minutes,
 
-  CreditCardInstallmentTerms({
-    required this.bni,
-    required this.mandiri,
-    required this.cimb,
-    required this.bca,
-    required this.offline,
-  });
+  /// Hours.
+  hours,
 
-  Map<String, dynamic> toJson() => {
-        'bni': bni,
-        'mandiri': mandiri,
-        'cimb': cimb,
-        'bca': bca,
-        'offline': offline,
-      }..removeWhere((key, value) => value == null);
+  /// Days.
+  days,
 }
 
-class CreditCard {
-  final bool? secure;
-  final String? channel;
-  final String? bank;
-  final Map<String, CreditCardInstallmentTerms>? installment;
-  final List<String>? whitelistBins;
-  final Map<String, String>? dynamicDescriptor;
-
-  CreditCard({
-    this.secure,
-    this.channel,
-    this.bank,
-    this.installment,
-    this.whitelistBins,
-    this.dynamicDescriptor,
-  });
-
-  Map<String, dynamic> toJson() => {
-        'secure': secure,
-        'channel': channel,
-        'bank': bank,
-        'installment':
-            installment?.map((key, value) => MapEntry(key, value.toJson())),
-        'whitelistBins': whitelistBins,
-        'dynamicDescriptor': dynamicDescriptor,
-      }..removeWhere((key, value) => value == null);
-}
-
-class FreeText {
-  final List<FreeTextItem>? inquiry;
-  final List<FreeTextItem>? payment;
-
-  FreeText({
-    this.inquiry,
-    this.payment,
-  });
-
-  Map<String, dynamic> toJson() => {
-        'inquiry': inquiry?.map((item) => item.toJson()).toList(),
-        'payment': payment?.map((item) => item.toJson()).toList(),
-      }..removeWhere((key, value) => value == null);
-}
-
-class FreeTextItem {
-  final String en;
-  final String id;
-
-  FreeTextItem({
-    required this.en,
-    required this.id,
-  });
-
-  Map<String, dynamic> toJson() => {
-        'en': en,
-        'id': id,
-      }..removeWhere((key, value) => value == null);
-}
-
-class BcaVa {
-  final String? vaNumber;
-  final String? subCompanyCode;
-  final FreeText? freeText;
-
-  BcaVa({
-    this.vaNumber,
-    this.subCompanyCode,
-    this.freeText,
-  });
-
-  Map<String, dynamic> toJson() => {
-        'vaNumber': vaNumber,
-        'subCompanyCode': subCompanyCode,
-        'freeText': freeText?.toJson(),
-      }..removeWhere((key, value) => value == null);
-}
-
-class ShopeePay {
-  final String? callbackUrl;
-
-  ShopeePay({
-    this.callbackUrl,
-  });
-
-  Map<String, dynamic> toJson() => {
-        'callbackUrl': callbackUrl,
-      }..removeWhere((key, value) => value == null);
-}
-
-class GoPay {
-  final bool? enableCallback;
-  final String? callbackUrl;
-
-  GoPay({
-    this.enableCallback,
-    this.callbackUrl,
-  });
-
-  Map<String, dynamic> toJson() => {
-        'enableCallback': enableCallback,
-        'callbackUrl': callbackUrl,
-      }..removeWhere((key, value) => value == null);
-}
-
-class Callbacks {
-  final String? finish;
-
-  Callbacks({
-    this.finish,
-  });
-
-  Map<String, dynamic> toJson() => {
-        'finish': finish,
-      }..removeWhere((key, value) => value == null);
-}
-
+/// Represents the expiry configuration.
 class Expiry {
-  final String startTime;
-  final String unit;
+  /// The start time for the expiry duration.
+  final DateTime? startTime;
+
+  /// The unit for the expiry duration.
+  final ExpireUnit unit;
+
+  /// The duration for the expiry.
   final int duration;
 
+  /// Creates a new instance of [Expiry].
+  ///
+  /// [startTime] is the start time for the expiry duration.
+  /// [unit] is the unit for the expiry duration.
+  /// [duration] is the duration for the expiry.
   Expiry({
     required this.startTime,
-    required this.unit,
-    required this.duration,
+    this.unit = ExpireUnit.days,
+    this.duration = 1,
   });
 
+  /// Converts the expiry configuration to a JSON representation.
   Map<String, dynamic> toJson() => {
         'startTime': startTime,
-        'unit': unit,
+        'unit': unit.toString().split('.').last,
         'duration': duration,
-      }..removeWhere((key, value) => value == null);
+      }..removeWhere((_, value) => value == null);
 }
 
-class PageExpiry {
-  final int duration;
-  final String unit;
-
-  PageExpiry({
-    required this.duration,
-    required this.unit,
-  });
-
-  Map<String, dynamic> toJson() => {
-        'duration': duration,
-        'unit': unit,
-      }..removeWhere((key, value) => value == null);
-}
-
-class Recurring {
-  final bool required;
-  final String startTime;
-  final String intervalUnit;
-
-  Recurring({
-    required this.required,
-    required this.startTime,
-    required this.intervalUnit,
-  });
-
-  Map<String, dynamic> toJson() => {
-        'required': required,
-        'startTime': startTime,
-        'intervalUnit': intervalUnit,
-      }..removeWhere((key, value) => value == null);
-}
-
-class BniVa {
-  final String? vaNumber;
-
-  BniVa({
-    this.vaNumber,
-  });
-
-  Map<String, dynamic> toJson() => {
-        'vaNumber': vaNumber,
-      }..removeWhere((key, value) => value == null);
-}
-
-class CimbVa {
-  final String? vaNumber;
-
-  CimbVa({
-    this.vaNumber,
-  });
-
-  Map<String, dynamic> toJson() => {
-        'vaNumber': vaNumber,
-      }..removeWhere((key, value) => value == null);
-}
-
-class BriVa {
-  final String? vaNumber;
-
-  BriVa({
-    this.vaNumber,
-  });
-
-  Map<String, dynamic> toJson() => {
-        'vaNumber': vaNumber,
-      }..removeWhere((key, value) => value == null);
-}
-
-class PermataVa {
-  final String? vaNumber;
-  final String? recipientName;
-
-  PermataVa({
-    this.vaNumber,
-    this.recipientName,
-  });
-
-  Map<String, dynamic> toJson() => {
-        'vaNumber': vaNumber,
-        'recipientName': recipientName,
-      }..removeWhere((key, value) => value == null);
-}
-
+/// Represents the payload for Midtrans integration.
 class MidtransPayload {
+  /// The transaction details.
   final TransactionDetails transactionDetails;
-  final List<ItemDetail> itemDetails;
-  final CustomerDetails? customerDetails;
-  final List<String>? enabledPayments;
-  final CreditCard? creditCard;
-  final BcaVa? bcaVa;
-  final BniVa? bniVa;
-  final BriVa? briVa;
-  final CimbVa? cimbVa;
-  final PermataVa? permataVa;
-  final ShopeePay? shopeePay;
-  final GoPay? goPay;
-  final Callbacks? callbacks;
-  final Map<String, dynamic>? uobEzpay;
-  final Expiry? expiry;
-  final PageExpiry? pageExpiry;
-  final Recurring? recurring;
-  final String? customField1;
-  final String? customField2;
-  final String? customField3;
 
+  /// The item details.
+  final List<ItemDetail> itemDetails;
+
+  /// The customer details.
+  final CustomerDetails? customerDetails;
+
+  /// The expiry configuration.
+  final Expiry? expiry;
+
+  /// Creates a new instance of [MidtransPayload].
+  ///
+  /// [transactionDetails] are the details of the transaction.
+  /// [itemDetails] are the details of the items.
+  /// [customerDetails] are the details of the customer.
+  /// [expiry] is the expiry configuration.
   MidtransPayload({
     required this.transactionDetails,
     required this.itemDetails,
     this.customerDetails,
-    this.enabledPayments,
-    this.creditCard,
-    this.bcaVa,
-    this.bniVa,
-    this.briVa,
-    this.cimbVa,
-    this.permataVa,
-    this.shopeePay,
-    this.goPay,
-    this.callbacks,
-    this.uobEzpay,
     this.expiry,
-    this.pageExpiry,
-    this.recurring,
-    this.customField1,
-    this.customField2,
-    this.customField3,
   });
 
+  /// Converts the payload to a JSON representation.
   Map<String, dynamic> toJson() => {
         'transactionDetails': transactionDetails.toJson(),
         'itemDetails': itemDetails.map((e) => e.toJson()).toList(),
         'customerDetails': customerDetails?.toJson(),
-        'enabledPayments': enabledPayments,
-        'creditCard': creditCard?.toJson(),
-        'bcaVa': bcaVa?.toJson(),
-        'bniVa': bniVa?.toJson(),
-        'briVa': briVa?.toJson(),
-        'cimbVa': cimbVa?.toJson(),
-        'permataVa': permataVa?.toJson(),
-        'shopeePay': shopeePay?.toJson(),
-        'goPay': goPay?.toJson(),
-        'callbacks': callbacks?.toJson(),
-        'uobEzpay': uobEzpay,
         'expiry': expiry?.toJson(),
-        'pageExpiry': pageExpiry?.toJson(),
-        'recurring': recurring?.toJson(),
-        'customField1': customField1,
-        'customField2': customField2,
-        'customField3': customField3,
       }..removeWhere((key, value) => value == null);
 }

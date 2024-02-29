@@ -43,7 +43,7 @@ class MidtransPlugin {
   }
 
   Future _onMethodCallHandler(MethodCall call) async {
-    if (call.method == 'transactionResult') {
+    if (call.method == 'onTransactionResult') {
       final arguments = Map<String, dynamic>.from(call.arguments);
       _callback?.call(TransactionResult.fromJson(arguments));
     }

@@ -1,0 +1,42 @@
+PODS:
+  - Flutter (1.0.0)
+  - integration_test (0.0.1):
+    - Flutter
+  - midtrans_plugin (0.0.1):
+    - Flutter
+    - MidtransKit
+  - MidtransCoreKit (1.24.1)
+  - MidtransKit (1.24.1):
+    - MidtransCoreKit (= 1.24.1)
+    - MidtransKit/UI (= 1.24.1)
+  - MidtransKit/UI (1.24.1):
+    - MidtransCoreKit (= 1.24.1)
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - integration_test (from `.symlinks/plugins/integration_test/ios`)
+  - midtrans_plugin (from `.symlinks/plugins/midtrans_plugin/ios`)
+
+SPEC REPOS:
+  trunk:
+    - MidtransCoreKit
+    - MidtransKit
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  integration_test:
+    :path: ".symlinks/plugins/integration_test/ios"
+  midtrans_plugin:
+    :path: ".symlinks/plugins/midtrans_plugin/ios"
+
+SPEC CHECKSUMS:
+  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
+  integration_test: 13825b8a9334a850581300559b8839134b124670
+  midtrans_plugin: 5684de9ec7154c18b09ad3efa7410e1ce428557b
+  MidtransCoreKit: c2b3371bddd48762409a7d7c8fc195d93f7c544a
+  MidtransKit: f8371019c9e1f271159b0c8ba8d9f142891221a3
+
+PODFILE CHECKSUM: 6e700dec67e6deac9b1c69bb14c49a2217a12d15
+
+COCOAPODS: 1.15.2
