@@ -13,6 +13,7 @@ Future<void> main() async {
     merchantClientKey: 'SB-Mid-client-V8p1M-DRoTXmhvsz',
     merchantUrl: 'https://midtrans-server.web.app/api/',
     paymentTypeConfig: PaymentTypeConfig.twoClickPayment,
+    permataVa: PermataVa(vaNumber: '1111111111'),
   );
   await MidtransPlugin.initialize(config);
 
