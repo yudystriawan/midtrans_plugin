@@ -70,14 +70,14 @@ class MidtransConfig {
 /// Configuration for Permata Virtual Account payment method.
 class PermataVa {
   /// Virtual Account number.
-  final String? vaNumber;
+  final String vaNumber;
 
   /// Name of the recipient.
   final String? recipientName;
 
   /// Creates a new instance of [PermataVa].
   PermataVa({
-    this.vaNumber,
+    required this.vaNumber,
     this.recipientName,
   });
 
@@ -91,14 +91,14 @@ class PermataVa {
 /// Configuration for BCA Virtual Account payment method.
 class BcaVa {
   /// Virtual Account number.
-  final String? vaNumber;
+  final String vaNumber;
 
   /// Sub-company code. Must be exactly 5 digits of a number.
   final String? subCompanyCode;
 
   /// Creates a new instance of [BcaVa].
   BcaVa({
-    this.vaNumber,
+    required this.vaNumber,
     this.subCompanyCode,
   });
 
@@ -112,11 +112,11 @@ class BcaVa {
 /// Configuration for BNI Virtual Account payment method.
 class BniVa {
   /// Virtual Account number.
-  final String? vaNumber;
+  final String vaNumber;
 
   /// Creates a new instance of [BniVa].
   BniVa({
-    this.vaNumber,
+    required this.vaNumber,
   });
 
   /// Converts the configuration to a JSON representation.

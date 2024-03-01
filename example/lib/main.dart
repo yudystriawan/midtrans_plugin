@@ -123,6 +123,7 @@ class _MyAppState extends State<MyApp> {
                         _isLoading = false;
                       });
                     } catch (e) {
+                      log('an error occured', error: e);
                       setState(() {
                         _isLoading = false;
                         _message = 'Cannot pay';
