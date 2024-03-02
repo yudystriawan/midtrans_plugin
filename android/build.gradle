@@ -47,7 +47,7 @@ android {
     }
 
     defaultConfig {
-        minSdkVersion 19
+        minSdkVersion 21
     }
 
     dependencies {
@@ -69,6 +69,6 @@ android {
 }
 
 dependencies {
-    // For using the Midtrans Sandbox
     implementation 'com.midtrans:uikit:2.0.0-SANDBOX'
+    releaseImplementation 'com.midtrans:uikit:2.0.0'
 }

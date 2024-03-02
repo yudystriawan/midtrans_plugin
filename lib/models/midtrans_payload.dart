@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 /// Represents the details of a transaction.
 class TransactionDetails {
   /// The order ID associated with the transaction.
@@ -175,7 +177,7 @@ enum ExpireUnit {
 /// Represents the expiry configuration.
 class Expiry {
   /// The start time for the expiry duration.
-  final DateTime? startTime;
+  final DateTime startTime;
 
   /// The unit for the expiry duration.
   final ExpireUnit unit;
@@ -196,7 +198,7 @@ class Expiry {
 
   /// Converts the expiry configuration to a JSON representation.
   Map<String, dynamic> toJson() => {
-        'startTime': startTime,
+        'startTime': DateFormat("yyyy-MM-dd HH:mm:ss Z").format(startTime),
         'unit': unit.toString().split('.').last,
         'duration': duration,
       }..removeWhere((_, value) => value == null);

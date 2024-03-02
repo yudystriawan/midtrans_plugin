@@ -13,6 +13,7 @@ Future<void> main() async {
     merchantClientKey: 'SB-Mid-client-V8p1M-DRoTXmhvsz',
     merchantUrl: 'https://midtrans-server.web.app/api/',
     paymentTypeConfig: PaymentTypeConfig.twoClickPayment,
+    permataVa: PermataVa(vaNumber: '1111111111'),
   );
   await MidtransPlugin.initialize(config);
 
@@ -123,6 +124,7 @@ class _MyAppState extends State<MyApp> {
                         _isLoading = false;
                       });
                     } catch (e) {
+                      log('an error occured', error: e);
                       setState(() {
                         _isLoading = false;
                         _message = 'Cannot pay';
