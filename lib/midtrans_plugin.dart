@@ -1,4 +1,3 @@
-import 'package:flutter/services.dart';
 import 'package:midtrans_plugin/models/midtrans_config.dart';
 import 'package:midtrans_plugin/models/midtrans_payload.dart';
 import 'package:midtrans_plugin/models/transaction_result.dart';
@@ -6,47 +5,33 @@ import 'package:midtrans_plugin/models/transaction_result.dart';
 import 'midtrans_plugin_platform_interface.dart';
 
 class MidtransPlugin {
-  static MidtransPlugin? _instance;
-  static const _channel = MethodChannel('midtrans_plugin');
-  TransactionResultCallback? _callback;
+  MidtransPlugin._();
 
-  MidtransPlugin._() {
-    _channel.setMethodCallHandler(_onMethodCallHandler);
+  static MidtransPluginPlatform? _delegatePackingProperty;
+
+  static MidtransPluginPlatform get _delegate {
+    return _delegatePackingProperty ??= MidtransPluginPlatform.instance;
   }
 
   static MidtransPlugin get instance {
-    if (_instance == null) {
-      throw UnimplementedError('MidtransPlugin instance not initialized yet!');
-    }
-
-    return _instance!;
+    return MidtransPlugin._instanceFor();
   }
 
-  static Future<void> initialize(MidtransConfig config) async {
-    if (_instance != null) return;
-
-    final result = await MidtransPluginPlatform.instance.initialize(config);
-
-    if (result ?? false) {
-      _instance = MidtransPlugin._();
-    }
-
-    return;
+  factory MidtransPlugin._instanceFor() {
+    final newInstance = MidtransPlugin._();
+    return newInstance;
   }
 
-  Future<void> startPayment(MidtransPayload payload) {
-    return MidtransPluginPlatform.instance.startPayment(payload);
+  static Stream<TransactionResult> get onTransactionResult =>
+      MidtransPluginPlatform.onTransactionResult.stream;
+
+  Future<bool?> initialize(MidtransConfig config) {
+    return _delegate.initialize(config);
   }
 
-  void setTransactionResultCallback(TransactionResultCallback callback) {
-    _callback = callback;
-  }
+  bool get isInitialized => _delegate.isInitialized;
 
-  Future _onMethodCallHandler(MethodCall call) async {
-    if (call.method == 'onTransactionResult') {
-      final arguments = Map<String, dynamic>.from(call.arguments);
-      _callback?.call(TransactionResult.fromJson(arguments));
-    }
-    return;
+  Future<void> startPayment(MidtransPayload payload) async {
+    return _delegate.startPayment(payload);
   }
 }

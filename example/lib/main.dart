@@ -15,7 +15,7 @@ Future<void> main() async {
     paymentTypeConfig: PaymentTypeConfig.twoClickPayment,
     permataVa: PermataVa(vaNumber: '1111111111'),
   );
-  await MidtransPlugin.initialize(config);
+  await MidtransPlugin.instance.initialize(config);
 
   runApp(const MyApp());
 }
@@ -31,13 +31,13 @@ class _MyAppState extends State<MyApp> {
   String _message = '';
   bool _isLoading = false;
 
-  final _midtransPlugin = MidtransPlugin.instance;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
   @override
   void initState() {
     super.initState();
-    _midtransPlugin.setTransactionResultCallback((result) {
+
+    MidtransPlugin.onTransactionResult.listen((result) {
       log('[transactionResult] $result');
       final transactionID = result.transactionId;
       final status = result.transactionStatus;
@@ -112,7 +112,7 @@ class _MyAppState extends State<MyApp> {
                         ),
                       );
 
-                      await _midtransPlugin.startPayment(
+                      await MidtransPlugin.instance.startPayment(
                         MidtransPayload(
                           transactionDetails: transactionDetails,
                           itemDetails: itemDetails,
