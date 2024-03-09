@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:midtrans_plugin/midtrans_plugin.dart';
 import 'package:midtrans_plugin/models/midtrans_config.dart';
@@ -9,12 +10,19 @@ import 'package:midtrans_plugin/models/midtrans_payload.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  String merchantClientKey = 'clientKeySandbox';
+  String merchantUrl = 'merchantUrlSandbox';
+  if (!kDebugMode && !kProfileMode) {
+    merchantClientKey = 'clientKeyProd';
+    merchantUrl = 'merchantUrlProd';
+  }
+
   final config = MidtransConfig(
-    merchantClientKey: 'SB-Mid-client-V8p1M-DRoTXmhvsz',
-    merchantUrl: 'https://midtrans-server.web.app/api/',
+    merchantClientKey: merchantClientKey,
+    merchantUrl: merchantUrl,
     paymentTypeConfig: PaymentTypeConfig.twoClickPayment,
-    permataVa: PermataVa(vaNumber: '1111111111'),
   );
+
   await MidtransPlugin.initialize(config);
 
   runApp(const MyApp());
