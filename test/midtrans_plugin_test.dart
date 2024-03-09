@@ -128,7 +128,7 @@ void main() {
         when(mockMidtransPluginPlatform.initialize(config))
             .thenAnswer((_) => Future.value(true));
 
-        final result = await midtransPlugin.initialize(config);
+        final result = await MidtransPlugin.initialize(config);
 
         expect(result, isTrue);
 

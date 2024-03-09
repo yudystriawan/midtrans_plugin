@@ -15,7 +15,7 @@ Future<void> main() async {
     paymentTypeConfig: PaymentTypeConfig.twoClickPayment,
     permataVa: PermataVa(vaNumber: '1111111111'),
   );
-  await MidtransPlugin.instance.initialize(config);
+  await MidtransPlugin.initialize(config);
 
   runApp(const MyApp());
 }

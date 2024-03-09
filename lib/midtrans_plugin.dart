@@ -25,7 +25,7 @@ class MidtransPlugin {
   static Stream<TransactionResult> get onTransactionResult =>
       MidtransPluginPlatform.onTransactionResult.stream;
 
-  Future<bool?> initialize(MidtransConfig config) {
+  static Future<bool?> initialize(MidtransConfig config) {
     return _delegate.initialize(config);
   }
 
