@@ -176,6 +176,8 @@ enum ExpireUnit {
 
 /// Represents the expiry configuration.
 class Expiry {
+  static const String kDateFormat = 'yyyy-MM-dd HH:mm:ss Z';
+
   /// The start time for the expiry duration.
   final DateTime startTime;
 
@@ -198,7 +200,7 @@ class Expiry {
 
   /// Converts the expiry configuration to a JSON representation.
   Map<String, dynamic> toJson() => {
-        'startTime': DateFormat("yyyy-MM-dd HH:mm:ss Z").format(startTime),
+        'startTime': DateFormat(kDateFormat).format(startTime),
         'unit': unit.toString().split('.').last,
         'duration': duration,
       }..removeWhere((_, value) => value == null);

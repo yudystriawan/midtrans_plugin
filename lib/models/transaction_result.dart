@@ -1,9 +1,3 @@
-/// Callback function signature for transaction result.
-///
-/// This callback function is typically invoked after a transaction has been processed,
-/// providing information about the transaction result.
-typedef TransactionResultCallback = void Function(TransactionResult result);
-
 /// Represents the result of a transaction.
 class TransactionResult {
   /// The status message of the transaction.
