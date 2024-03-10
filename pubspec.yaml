@@ -1,5 +1,5 @@
 name: midtrans_plugin
-description: "A new Flutter plugin project."
+description: "A Flutter plugin for integrating Midtrans payment gateway into your applications."
 version: 1.0.0
 repository: https://github.com/deytri/midtrans_plugin
 
