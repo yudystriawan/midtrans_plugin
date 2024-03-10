@@ -1,3 +1,19 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Midtrans Plugin](#midtrans-plugin)
+  - [Introduction](#introduction)
+  - [Features](#features)
+  - [Installation](#installation)
+  - [Usage](#usage)
+    - [1. Import the package](#1-import-the-package)
+    - [2. Initialize Midtrans](#2-initialize-midtrans)
+    - [3. Make transaction](#3-make-transaction)
+    - [4. Handle Payment Result](#4-handle-payment-result)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Midtrans Plugin
 
 This plugin is a unofficial implementation for integrating Midtrans payment gateway into your Flutter applications. Midtrans is tech-based finance that offers a payment gateway in Indonesia. Supports many online payment methods and transfers funds (disbursement) to make it easier for customers in business transactions and to focus on growing your business with the option of managing all payment processes.
