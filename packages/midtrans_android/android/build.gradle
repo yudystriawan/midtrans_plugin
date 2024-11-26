@@ -54,7 +54,6 @@ android {
     dependencies {
         testImplementation("org.jetbrains.kotlin:kotlin-test")
         testImplementation("org.mockito:mockito-core:5.0.0")
-        implementation 'com.midtrans:uikit:2.3.0'
     }
 
     testOptions {
@@ -68,4 +67,19 @@ android {
             }
         }
     }
+    flavorDimensions += 'environment'
+    productFlavors {
+        sandbox {
+            dimension 'environment'
+        }
+        production {
+            dimension 'environment'
+        }
+    }
+}
+
+dependencies {
+    productionImplementation 'com.midtrans:uikit:2.3.0'
+    //noinspection GradleDependency
+    sandboxImplementation 'com.midtrans:uikit:2.3.0-SANDBOX'
 }

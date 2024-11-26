@@ -58,6 +58,15 @@ android {
             signingConfig signingConfigs.debug
         }
     }
+    flavorDimensions 'environment'
+    productFlavors {
+        sandbox {
+            dimension 'environment'
+        }
+        production {
+            dimension 'environment'
+        }
+    }
 }
 
 flutter {
