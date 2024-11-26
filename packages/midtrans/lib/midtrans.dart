@@ -4,12 +4,14 @@ export 'package:midtrans_platform_interface/models/models.dart';
 
 class Midtrans {
   static MidtransPluginPlatform? _platform;
+  static late final MidtransConfig _config;
 
   Midtrans._internal();
 
   static Future<void> initialize(MidtransConfig config) async {
     try {
       _platform = MidtransPluginPlatform.instance;
+      _config = config;
 
       await _platform!.initialize(config);
     } catch (e) {
@@ -27,4 +29,6 @@ class Midtrans {
 
     return _platform!;
   }
+
+  static MidtransConfig get config => _config;
 }
