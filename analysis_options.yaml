@@ -1,0 +1,9 @@
+include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  exclude:
+    - "bin/cache/**"
+    - "**/*.freezed.dart"
+    - "**/*.g.dart"
+    - "**/*.mocks.dart"
+    - "**/generated/**"

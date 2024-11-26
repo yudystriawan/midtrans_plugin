@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-
-import 'midtrans_platform_interface.dart';
+import 'package:midtrans_platform_interface/midtrans_plugin.dart';
 
 /// An implementation of [MidtransPluginPlatform] that uses method channels.
 class MethodChannelMidtransPlugin extends MidtransPluginPlatform {
@@ -10,9 +9,11 @@ class MethodChannelMidtransPlugin extends MidtransPluginPlatform {
   final methodChannel = const MethodChannel('midtrans_plugin');
 
   @override
-  Future<String?> getPlatformVersion() async {
-    final version =
-        await methodChannel.invokeMethod<String>('getPlatformVersion');
-    return version;
+  Future<void> initialize(MidtransConfig config) async {
+    try {
+      await methodChannel.invokeMethod('initialize', config.toJson());
+    } catch (e) {
+      throw const MidtransFailure.unexpectedError();
+    }
   }
 }
