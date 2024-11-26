@@ -17,4 +17,14 @@ class MethodChannelMidtransPlugin extends MidtransPluginPlatform {
       throw const MidtransFailure.unexpectedError();
     }
   }
+
+  @override
+  Future<void> checkout(String snapToken) async {
+    try {
+      final payload = {'snapToken': snapToken};
+      await methodChannel.invokeMethod('checkout', payload);
+    } catch (e) {
+      throw const MidtransFailure.unexpectedError();
+    }
+  }
 }

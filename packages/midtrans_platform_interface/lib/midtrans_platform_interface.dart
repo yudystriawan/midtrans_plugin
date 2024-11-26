@@ -27,4 +27,8 @@ abstract class MidtransPluginPlatform extends PlatformInterface {
   Future<void> initialize(MidtransConfig config) {
     throw UnimplementedError('initialize() has not been implemented.');
   }
+
+  Future<void> checkout(String snapToken) {
+    throw UnimplementedError('checkout() has not been implemented.');
+  }
 }
