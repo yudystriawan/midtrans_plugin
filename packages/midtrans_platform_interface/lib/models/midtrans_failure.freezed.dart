@@ -18,33 +18,39 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$MidtransFailure {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() unexpectedError,
+    required TResult Function(String? message) unexpectedError,
+    required TResult Function() initializeFailed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? unexpectedError,
+    TResult? Function(String? message)? unexpectedError,
+    TResult? Function()? initializeFailed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? unexpectedError,
+    TResult Function(String? message)? unexpectedError,
+    TResult Function()? initializeFailed,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_UnexpectedError value) unexpectedError,
+    required TResult Function(_InitializeFailed value) initializeFailed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_UnexpectedError value)? unexpectedError,
+    TResult? Function(_InitializeFailed value)? initializeFailed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_UnexpectedError value)? unexpectedError,
+    TResult Function(_InitializeFailed value)? initializeFailed,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -76,6 +82,8 @@ abstract class _$$UnexpectedErrorImplCopyWith<$Res> {
   factory _$$UnexpectedErrorImplCopyWith(_$UnexpectedErrorImpl value,
           $Res Function(_$UnexpectedErrorImpl) then) =
       __$$UnexpectedErrorImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String? message});
 }
 
 /// @nodoc
@@ -88,51 +96,80 @@ class __$$UnexpectedErrorImplCopyWithImpl<$Res>
 
   /// Create a copy of MidtransFailure
   /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? message = freezed,
+  }) {
+    return _then(_$UnexpectedErrorImpl(
+      message: freezed == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$UnexpectedErrorImpl implements _UnexpectedError {
-  const _$UnexpectedErrorImpl();
+  const _$UnexpectedErrorImpl({this.message});
+
+  @override
+  final String? message;
 
   @override
   String toString() {
-    return 'MidtransFailure.unexpectedError()';
+    return 'MidtransFailure.unexpectedError(message: $message)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$UnexpectedErrorImpl);
+        (other.runtimeType == runtimeType &&
+            other is _$UnexpectedErrorImpl &&
+            (identical(other.message, message) || other.message == message));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, message);
+
+  /// Create a copy of MidtransFailure
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$UnexpectedErrorImplCopyWith<_$UnexpectedErrorImpl> get copyWith =>
+      __$$UnexpectedErrorImplCopyWithImpl<_$UnexpectedErrorImpl>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() unexpectedError,
+    required TResult Function(String? message) unexpectedError,
+    required TResult Function() initializeFailed,
   }) {
-    return unexpectedError();
+    return unexpectedError(message);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? unexpectedError,
+    TResult? Function(String? message)? unexpectedError,
+    TResult? Function()? initializeFailed,
   }) {
-    return unexpectedError?.call();
+    return unexpectedError?.call(message);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? unexpectedError,
+    TResult Function(String? message)? unexpectedError,
+    TResult Function()? initializeFailed,
     required TResult orElse(),
   }) {
     if (unexpectedError != null) {
-      return unexpectedError();
+      return unexpectedError(message);
     }
     return orElse();
   }
@@ -141,6 +178,7 @@ class _$UnexpectedErrorImpl implements _UnexpectedError {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_UnexpectedError value) unexpectedError,
+    required TResult Function(_InitializeFailed value) initializeFailed,
   }) {
     return unexpectedError(this);
   }
@@ -149,6 +187,7 @@ class _$UnexpectedErrorImpl implements _UnexpectedError {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_UnexpectedError value)? unexpectedError,
+    TResult? Function(_InitializeFailed value)? initializeFailed,
   }) {
     return unexpectedError?.call(this);
   }
@@ -157,6 +196,7 @@ class _$UnexpectedErrorImpl implements _UnexpectedError {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_UnexpectedError value)? unexpectedError,
+    TResult Function(_InitializeFailed value)? initializeFailed,
     required TResult orElse(),
   }) {
     if (unexpectedError != null) {
@@ -167,5 +207,119 @@ class _$UnexpectedErrorImpl implements _UnexpectedError {
 }
 
 abstract class _UnexpectedError implements MidtransFailure {
-  const factory _UnexpectedError() = _$UnexpectedErrorImpl;
+  const factory _UnexpectedError({final String? message}) =
+      _$UnexpectedErrorImpl;
+
+  String? get message;
+
+  /// Create a copy of MidtransFailure
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$UnexpectedErrorImplCopyWith<_$UnexpectedErrorImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$InitializeFailedImplCopyWith<$Res> {
+  factory _$$InitializeFailedImplCopyWith(_$InitializeFailedImpl value,
+          $Res Function(_$InitializeFailedImpl) then) =
+      __$$InitializeFailedImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$InitializeFailedImplCopyWithImpl<$Res>
+    extends _$MidtransFailureCopyWithImpl<$Res, _$InitializeFailedImpl>
+    implements _$$InitializeFailedImplCopyWith<$Res> {
+  __$$InitializeFailedImplCopyWithImpl(_$InitializeFailedImpl _value,
+      $Res Function(_$InitializeFailedImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of MidtransFailure
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$InitializeFailedImpl implements _InitializeFailed {
+  const _$InitializeFailedImpl();
+
+  @override
+  String toString() {
+    return 'MidtransFailure.initializeFailed()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$InitializeFailedImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String? message) unexpectedError,
+    required TResult Function() initializeFailed,
+  }) {
+    return initializeFailed();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String? message)? unexpectedError,
+    TResult? Function()? initializeFailed,
+  }) {
+    return initializeFailed?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String? message)? unexpectedError,
+    TResult Function()? initializeFailed,
+    required TResult orElse(),
+  }) {
+    if (initializeFailed != null) {
+      return initializeFailed();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_UnexpectedError value) unexpectedError,
+    required TResult Function(_InitializeFailed value) initializeFailed,
+  }) {
+    return initializeFailed(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_UnexpectedError value)? unexpectedError,
+    TResult? Function(_InitializeFailed value)? initializeFailed,
+  }) {
+    return initializeFailed?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_UnexpectedError value)? unexpectedError,
+    TResult Function(_InitializeFailed value)? initializeFailed,
+    required TResult orElse(),
+  }) {
+    if (initializeFailed != null) {
+      return initializeFailed(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _InitializeFailed implements MidtransFailure {
+  const factory _InitializeFailed() = _$InitializeFailedImpl;
 }
