@@ -156,13 +156,17 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   const config = MidtransConfig(
-    clientKey: 'clientKeySandbox',
-    baseUrl: 'baseUrlSandbox',
+    clientKey: 'Mid-client-6p1ddEHvfy4GHy2Y',
+    baseUrl: 'https://midtrans-server.firebaseapp.com/api/',
     isProduction: false,
     enableLog: true,
   );
 
-  await Midtrans.initialize(config);
+  try {
+    await Midtrans.initialize(config);
+  } catch (e) {
+    debugPrint('Failed to initialize Midtrans: $e');
+  }
 
   runApp(const MyApp());
 }
@@ -180,7 +184,7 @@ class MyApp extends StatelessWidget {
             children: [
               ElevatedButton(
                 onPressed: () {},
-                child: const Text('Initialize'),
+                child: const Text('pay'),
               ),
             ],
           ),
