@@ -183,7 +183,10 @@ class MyApp extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () async {
+                  await Midtrans.platform
+                      .checkout('4447b9e5-69db-43f7-9e73-2679cb8760ef');
+                },
                 child: const Text('pay'),
               ),
             ],
