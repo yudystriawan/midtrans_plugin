@@ -11,7 +11,8 @@ class MethodChannelMidtransPlugin extends MidtransPluginPlatform {
   @override
   Future<void> initialize(MidtransConfig config) async {
     try {
-      await methodChannel.invokeMethod('initialize', config.toJson());
+      final payload = {'config': config.toJson()};
+      await methodChannel.invokeMethod('initialize', payload);
     } catch (e) {
       throw const MidtransFailure.unexpectedError();
     }
