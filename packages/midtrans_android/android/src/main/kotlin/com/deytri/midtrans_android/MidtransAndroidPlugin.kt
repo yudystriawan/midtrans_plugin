@@ -2,6 +2,7 @@ package com.deytri.midtrans_android
 
 import android.content.Context
 import androidx.annotation.NonNull
+import com.google.gson.Gson
 import com.midtrans.sdk.uikit.external.UiKitApi
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin
@@ -37,16 +38,16 @@ class MidtransAndroidPlugin : FlutterPlugin, MethodCallHandler {
 
     private fun initialize(call: MethodCall, result: Result) {
         try {
-            val clientKey: String = call.argument<String>("clientKey")!!
-            val baseUrl: String = call.argument<String>("baseUrl")!!
-            val enableLog: Boolean = call.argument<Boolean>("enableLog")!!
+            val config: MidtransConfig =
+                Gson().fromJson(call.argument<String>("config"), MidtransConfig::class.java)
 
             UiKitApi.Builder()
-                .withMerchantClientKey(clientKey)
+                .withMerchantClientKey(config.clientKey)
                 .withContext(context)
-                .withMerchantUrl(baseUrl)
-                .enableLog(enableLog)
+                .withMerchantUrl(config.baseUrl)
+                .enableLog(config.enableLog)
                 .build()
+            
         } catch (e: Exception) {
             result.error("Internal Error", e.message, e)
         }

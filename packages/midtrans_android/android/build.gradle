@@ -82,4 +82,5 @@ dependencies {
     productionImplementation 'com.midtrans:uikit:2.3.0'
     //noinspection GradleDependency
     sandboxImplementation 'com.midtrans:uikit:2.3.0-SANDBOX'
+    implementation("com.google.code.gson:gson:2.10.1")
 }
