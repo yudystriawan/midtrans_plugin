@@ -3,10 +3,17 @@ package com.deytri.midtrans_android
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.widget.Toast
+import androidx.activity.ComponentActivity
 import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.IntentCompat.getParcelableExtra
 import com.deytri.midtrans_android.models.MidtransConfig
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import com.midtrans.sdk.uikit.api.model.TransactionResult
 import com.midtrans.sdk.uikit.external.UiKitApi
+import com.midtrans.sdk.uikit.internal.util.UiKitConstants
 import io.flutter.embedding.android.FlutterActivity
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin
@@ -28,6 +35,8 @@ class MidtransAndroidPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
     private lateinit var launcher: ActivityResultLauncher<Intent>
     private lateinit var activity: Activity
 
+    private val gson: Gson = Gson()
+
     override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
         channel = MethodChannel(flutterPluginBinding.binaryMessenger, "midtrans_plugin")
         channel.setMethodCallHandler(this)
@@ -45,6 +54,7 @@ class MidtransAndroidPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
     private fun checkout(call: MethodCall, result: Result) {
         try {
             val snapToken: String = call.argument<String>("snapToken")!!
+            print(snapToken)
             UiKitApi.getDefaultInstance().startPaymentUiFlow(activity, launcher, snapToken)
         } catch (e: Exception) {
             result.error("Internal Error", e.message, e)
@@ -53,8 +63,10 @@ class MidtransAndroidPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
 
     private fun initialize(call: MethodCall, result: Result) {
         try {
+            val json = gson.toJson(call.argument<Map<String, Any>>("config"))
+
             val config: MidtransConfig =
-                Gson().fromJson(call.argument<String>("config"), MidtransConfig::class.java)
+                gson.fromJson(json, MidtransConfig::class.java)
 
             UiKitApi.Builder()
                 .withMerchantClientKey(config.clientKey)
@@ -62,6 +74,8 @@ class MidtransAndroidPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                 .withMerchantUrl(config.baseUrl)
                 .enableLog(config.enableLog)
                 .build()
+
+            result.success(null)
 
         } catch (e: Exception) {
             result.error("Internal Error", e.message, e)
@@ -74,6 +88,25 @@ class MidtransAndroidPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
 
     override fun onAttachedToActivity(binding: ActivityPluginBinding) {
         activity = binding.activity
+
+        launcher =
+            (activity as ComponentActivity).registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    result.data?.let {
+                        val response = getParcelableExtra(
+                            it,
+                            UiKitConstants.KEY_TRANSACTION_RESULT,
+                            TransactionResult::class.java
+                        )
+                        Toast.makeText(
+                            context,
+                            "${response?.transactionId} ${response?.status}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        channel.invokeMethod("onSuccess", response)
+                    }
+                }
+            }
     }
 
     override fun onDetachedFromActivityForConfigChanges() {
