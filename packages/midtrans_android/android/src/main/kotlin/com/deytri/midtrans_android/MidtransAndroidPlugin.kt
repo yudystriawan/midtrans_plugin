@@ -47,7 +47,7 @@ class MidtransAndroidPlugin : FlutterPlugin, MethodCallHandler {
                 .withMerchantUrl(config.baseUrl)
                 .enableLog(config.enableLog)
                 .build()
-            
+
         } catch (e: Exception) {
             result.error("Internal Error", e.message, e)
         }
