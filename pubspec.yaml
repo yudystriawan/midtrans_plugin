@@ -7,23 +7,5 @@ environment:
   sdk: ">=3.2.6 <4.0.0"
   flutter: ">=3.3.0"
 
-dependencies:
-  flutter:
-    sdk: flutter
-  intl: ^0.19.0
-  plugin_platform_interface: ^2.0.2
-
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
-  flutter_lints: ^2.0.0
-  mockito: ^5.4.4
-
-flutter:
-  plugin:
-    platforms:
-      android:
-        package: com.deytri.midtrans_plugin
-        pluginClass: MidtransPlugin
-      ios:
-        pluginClass: MidtransPlugin
+  melos: ^6.2.0

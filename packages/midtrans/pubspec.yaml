@@ -1,0 +1,20 @@
+name: midtrans
+description: "A new Flutter plugin project."
+version: 0.0.1
+
+environment:
+  sdk: ^3.5.4
+  flutter: ">=3.3.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  intl: ^0.19.0
+  midtrans_ios: ^0.0.1
+  midtrans_android: ^0.0.1
+  midtrans_platform_interface: ^0.0.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0

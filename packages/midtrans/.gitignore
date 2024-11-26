@@ -27,14 +27,3 @@ migrate_working_dir/
 **/doc/api/
 .dart_tool/
 build/
-
-# FVM Version Cache
-.fvm/
-
-**/pubspec.lock
-
-**/pubspec_overrides.yaml
-
-.flutter-plugins
-.flutter-plugins-dependencies
-melos_plugins.iml
