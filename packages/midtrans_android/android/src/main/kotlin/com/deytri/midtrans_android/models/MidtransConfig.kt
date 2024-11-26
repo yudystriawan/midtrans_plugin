@@ -1,4 +1,4 @@
-package com.deytri.midtrans_android
+package com.deytri.midtrans_android.models
 
 data class MidtransConfig(
     val clientKey: String,
