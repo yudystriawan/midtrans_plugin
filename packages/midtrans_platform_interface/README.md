@@ -1,4 +1,4 @@
-# midtrans_platform_interface
+# midtrans_plugin
 
 A new Flutter plugin project.
 
