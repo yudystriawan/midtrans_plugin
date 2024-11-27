@@ -6,6 +6,8 @@
   - [Introduction](#introduction)
   - [Features](#features)
   - [Installation](#installation)
+  - [Pre](#pre)
+    - [IOS](#ios)
   - [Usage](#usage)
     - [1. Import the package](#1-import-the-package)
     - [2. Initialize Midtrans](#2-initialize-midtrans)
@@ -46,6 +48,18 @@ dependencies:
 flutter pub get
 
 ```
+
+## Pre
+
+### IOS
+
+adding this code inside `Runner` in `Podfile`
+```
+use_frameworks!
+use_modular_headers!
+```
+
+
 
 ## Usage
 
