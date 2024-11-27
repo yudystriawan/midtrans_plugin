@@ -26,4 +26,7 @@ A new Flutter plugin project.
   # plugin's privacy impact, and then uncomment this line. For more information,
   # see https://developer.apple.com/documentation/bundleresources/privacy_manifest_files
   # s.resource_bundles = {'midtrans_ios_privacy' => ['Resources/PrivacyInfo.xcprivacy']}
+  
+  s.dependency 'MidtransKit'
+  s.static_framework = true
 end
