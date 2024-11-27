@@ -10,7 +10,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.IntentCompat.getParcelableExtra
 import com.deytri.midtrans_android.models.MidtransConfig
 import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.midtrans.sdk.uikit.api.model.TransactionResult
 import com.midtrans.sdk.uikit.external.UiKitApi
 import com.midtrans.sdk.uikit.internal.util.UiKitConstants
