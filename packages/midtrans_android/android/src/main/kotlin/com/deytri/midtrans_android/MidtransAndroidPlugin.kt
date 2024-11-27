@@ -62,6 +62,8 @@ class MidtransAndroidPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
 
     private fun initialize(call: MethodCall, result: Result) {
         try {
+            println("initialize called")
+
             val json = gson.toJson(call.argument<Map<String, Any>>("config"))
 
             val config: MidtransConfig =
@@ -92,6 +94,7 @@ class MidtransAndroidPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
             (activity as ComponentActivity).registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == Activity.RESULT_OK) {
                     result.data?.let {
+
                         val response = getParcelableExtra(
                             it,
                             UiKitConstants.KEY_TRANSACTION_RESULT,
@@ -102,7 +105,7 @@ class MidtransAndroidPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                             "${response?.transactionId} ${response?.status}",
                             Toast.LENGTH_SHORT
                         ).show()
-                        channel.invokeMethod("onSuccess", response)
+//                        channel.invokeMethod("onSuccess", response)
                     }
                 }
             }
