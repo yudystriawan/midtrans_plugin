@@ -185,7 +185,7 @@ class MyApp extends StatelessWidget {
               ElevatedButton(
                 onPressed: () async {
                   await Midtrans.platform
-                      .checkout('4447b9e5-69db-43f7-9e73-2679cb8760ef');
+                      .checkout('a6b3a7ee-305a-45ca-a374-decce6ba550f');
                 },
                 child: const Text('pay'),
               ),
