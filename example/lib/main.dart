@@ -215,6 +215,25 @@ class MyApp extends StatelessWidget {
                   },
                   child: const Text('pay'),
                 ),
+                const Divider(),
+                StreamBuilder(
+                  stream: Midtrans.instance.onTransactionResult,
+                  builder: (context, snapshot) {
+                    final hasData = snapshot.hasData;
+                    if (!hasData) return const Text('No result data');
+
+                    final data = snapshot.data!;
+
+                    return Column(
+                      children: [
+                        Text('transactionId: ${data.transactionId}'),
+                        Text('transactionStatus: ${data.status}'),
+                        Text('paymentType: ${data.paymentType}'),
+                        Text('message: ${data.message}'),
+                      ],
+                    );
+                  },
+                ),
               ],
             ),
           ),
