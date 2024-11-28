@@ -3,7 +3,7 @@ struct TransactionDetails {
   let grossAmount: NSNumber
   
   init(dictionary: [String: Any]) {
-    orderId = dictionary["order_id"] as! String
-    grossAmount = dictionary["gross_amount"] as! NSNumber
+    orderId = dictionary["orderId"] as! String
+    grossAmount = dictionary["grossAmount"] as! NSNumber
   }
 }

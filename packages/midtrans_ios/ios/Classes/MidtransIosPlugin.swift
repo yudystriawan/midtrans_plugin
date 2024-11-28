@@ -73,13 +73,25 @@ public class MidtransIosPlugin: NSObject, FlutterPlugin, MidtransUIPaymentViewCo
   func checkout(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
     print("checkout called")
     
-    guard let arguments = call.arguments as? Dictionary<String, AnyObject>,
-          let snapToken: String = arguments["snapToken"] as? String else {
-      result(FlutterError.init(code: "invalid_arguments", message: "snapToken is required", details: nil))
+    let arguments = call.arguments as! Dictionary<String, AnyObject>
+    
+    guard let transactionDetailsArgs = arguments["transactionDetails"] as? Dictionary<String, AnyObject> else {
+      result(FlutterError.init(code: "invalid_arguments", message: "transactionDetails is required", details: nil))
       return
     }
+    let transactionDetailsPayload: TransactionDetails = TransactionDetails(dictionary: transactionDetailsArgs)
+    let transactionDetails: MidtransTransactionDetails = MidtransTransactionDetails(orderID: transactionDetailsPayload.orderId,
+                                                                                    andGrossAmount: transactionDetailsPayload.grossAmount)
     
-    MidtransMerchantClient.shared().requestTransacation(withCurrentToken: snapToken) { (response, error) in
+    let itemDetailsArgs = arguments["itemDetails"] as? [Dictionary<String, AnyObject>]
+    let itemDetailsPayload: [ItemDetails]? = itemDetailsArgs?.compactMap{ ItemDetails(dictionary: $0) }
+    let itemDetails: [MidtransItemDetail]? = itemDetailsPayload?.compactMap{ MidtransItemDetail(itemID: $0.id,
+                                                                                                name: $0.name,
+                                                                                                price: $0.price,
+                                                                                                quantity: $0.quantity) }
+    
+    MidtransMerchantClient.shared().requestTransactionToken(with: transactionDetails, itemDetails: itemDetails, customerDetails: nil) {
+      (response, error) in
       if (response != nil) {
         let vc = MidtransUIPaymentViewController.init(token: response)
         vc?.paymentDelegate = self
@@ -88,5 +100,16 @@ public class MidtransIosPlugin: NSObject, FlutterPlugin, MidtransUIPaymentViewCo
         result(FlutterError.init(code: "internal", message: error?.localizedDescription, details: nil))
       }
     }
+    
+    
+    //    MidtransMerchantClient.shared().requestTransacation(withCurrentToken: snapToken) { (response, error) in
+    //      if (response != nil) {
+    //        let vc = MidtransUIPaymentViewController.init(token: response)
+    //        vc?.paymentDelegate = self
+    //        self.rootViewController?.present(vc!, animated: true, completion: nil)
+    //      } else {
+    //        result(FlutterError.init(code: "internal", message: error?.localizedDescription, details: nil))
+    //      }
+    //    }
   }
 }
