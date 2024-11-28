@@ -150,6 +150,7 @@
 // }
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:midtrans/midtrans.dart';
 
 Future<void> main() async {
@@ -159,11 +160,12 @@ Future<void> main() async {
     clientKey: 'Mid-client-6p1ddEHvfy4GHy2Y',
     baseUrl: 'https://midtrans-server.firebaseapp.com/api/',
     isProduction: false,
-    enableLog: true,
+    enableLog: false,
   );
 
   try {
     await Midtrans.initialize(config);
+    debugPrint('initialized');
   } catch (e) {
     debugPrint('Failed to initialize Midtrans: $e');
   }
@@ -226,10 +228,61 @@ class MyApp extends StatelessWidget {
 
                     return Column(
                       children: [
-                        Text('transactionId: ${data.transactionId}'),
-                        Text('transactionStatus: ${data.status}'),
-                        Text('paymentType: ${data.paymentType}'),
-                        Text('message: ${data.message}'),
+                        Row(
+                          children: [
+                            const Text('Transaction ID: '),
+                            const Spacer(),
+                            Text(data.transactionId ?? ''),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            const Text('Status: '),
+                            const Spacer(),
+                            Text(data.status ?? ''),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            const Text('Payment Type: '),
+                            const Spacer(),
+                            Text(data.paymentType ?? ''),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            const Text('Message: '),
+                            const Spacer(),
+                            Text(data.message ?? ''),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            const Text('Is Cancelled: '),
+                            const Spacer(),
+                            Text(data.isCancelled.toString()),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            const Text('Is Failed: '),
+                            const Spacer(),
+                            Text(data.isFailed.toString()),
+                          ],
+                        ),
+                        TextButton.icon(
+                          onPressed: () {
+                            Clipboard.setData(
+                                ClipboardData(text: data.transactionId ?? ''));
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Transaction ID copied'),
+                              ),
+                            );
+                          },
+                          label: const Text('Copy Transaction ID'),
+                          icon: const Icon(Icons.copy),
+                        ),
                       ],
                     );
                   },
