@@ -178,18 +178,30 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ElevatedButton(
-                onPressed: () async {
-                  await Midtrans.platform
-                      .checkout('a6b3a7ee-305a-45ca-a374-decce6ba550f');
-                },
-                child: const Text('pay'),
-              ),
-            ],
+        body: SafeArea(
+          child: Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ElevatedButton(
+                  onPressed: () async {
+                    try {
+                      await Midtrans.platform
+                          .checkout('868fbea0-b6ee-4e2e-bf18-9c1536bc671e');
+                    } on MidtransFailure catch (e) {
+                      final message = e.when(
+                        unexpectedError: (code, message) =>
+                            'error code $code, $message',
+                        initializeFailed: () => 'Failed to initialize',
+                      );
+
+                      debugPrint('Failed to checkout: $message');
+                    }
+                  },
+                  child: const Text('pay'),
+                ),
+              ],
+            ),
           ),
         ),
       ),
