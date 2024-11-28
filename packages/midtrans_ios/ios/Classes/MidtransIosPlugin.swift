@@ -57,9 +57,7 @@ public class MidtransIosPlugin: NSObject, FlutterPlugin, MidtransUIPaymentViewCo
     
     let config = MidtransConfig(dictionary: configArgs)
     
-    MidtransKit.MidtransConfig.shared().setClientKey(config?.clientKey,
-                                                     environment: config?.isProduction == true ? .production:.sandbox,
-                                                     merchantServerURL: config?.baseUrl)
+    MidtransKit.MidtransConfig.shared().setClientKey(config?.clientKey, environment: config?.isProduction == true ? .production:.sandbox, merchantServerURL: config?.baseUrl)
     
     if config?.enableLog == true {
       MidtransNetworkLogger.shared().startLogging()
@@ -80,18 +78,13 @@ public class MidtransIosPlugin: NSObject, FlutterPlugin, MidtransUIPaymentViewCo
       return
     }
     let transactionDetailsPayload: TransactionDetails = TransactionDetails(dictionary: transactionDetailsArgs)
-    let transactionDetails: MidtransTransactionDetails = MidtransTransactionDetails(orderID: transactionDetailsPayload.orderId,
-                                                                                    andGrossAmount: transactionDetailsPayload.grossAmount)
+    let transactionDetails: MidtransTransactionDetails = MidtransTransactionDetails(orderID: transactionDetailsPayload.orderId, andGrossAmount: transactionDetailsPayload.grossAmount)
     
     let itemDetailsArgs = arguments["itemDetails"] as? [Dictionary<String, AnyObject>]
     let itemDetailsPayload: [ItemDetails]? = itemDetailsArgs?.compactMap{ ItemDetails(dictionary: $0) }
-    let itemDetails: [MidtransItemDetail]? = itemDetailsPayload?.compactMap{ MidtransItemDetail(itemID: $0.id,
-                                                                                                name: $0.name,
-                                                                                                price: $0.price,
-                                                                                                quantity: $0.quantity) }
+    let itemDetails: [MidtransItemDetail]? = itemDetailsPayload?.compactMap{ MidtransItemDetail(itemID: $0.id, name: $0.name, price: $0.price, quantity: $0.quantity) }
     
-    MidtransMerchantClient.shared().requestTransactionToken(with: transactionDetails, itemDetails: itemDetails, customerDetails: nil) {
-      (response, error) in
+    MidtransMerchantClient.shared().requestTransactionToken(with: transactionDetails, itemDetails: itemDetails, customerDetails: nil) { (response, error) in
       if (response != nil) {
         let vc = MidtransUIPaymentViewController.init(token: response)
         vc?.paymentDelegate = self
@@ -100,16 +93,5 @@ public class MidtransIosPlugin: NSObject, FlutterPlugin, MidtransUIPaymentViewCo
         result(FlutterError.init(code: "internal", message: error?.localizedDescription, details: nil))
       }
     }
-    
-    
-    //    MidtransMerchantClient.shared().requestTransacation(withCurrentToken: snapToken) { (response, error) in
-    //      if (response != nil) {
-    //        let vc = MidtransUIPaymentViewController.init(token: response)
-    //        vc?.paymentDelegate = self
-    //        self.rootViewController?.present(vc!, animated: true, completion: nil)
-    //      } else {
-    //        result(FlutterError.init(code: "internal", message: error?.localizedDescription, details: nil))
-    //      }
-    //    }
   }
 }
