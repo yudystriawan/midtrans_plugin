@@ -3,30 +3,12 @@ import UIKit
 import MidtransKit
 
 public class MidtransIosPlugin: NSObject, FlutterPlugin, MidtransUIPaymentViewControllerDelegate {
-  public func paymentViewController(_ viewController: MidtransUIPaymentViewController!, paymentPending result: MidtransTransactionResult!) {
-    print("paymendPending result: \(String(describing: result))")
-  }
-  
-  public func paymentViewController(_ viewController: MidtransUIPaymentViewController!, paymentDeny result: MidtransTransactionResult!) {
-    print("paymentDeny result: \(String(describing: result))")
-  }
-  
-  public func paymentViewController(_ viewController: MidtransUIPaymentViewController!, paymentSuccess result: MidtransTransactionResult!) {
-    print("paymentSuccess result: \(String(describing: result))")
-  }
-  
-  public func paymentViewController(_ viewController: MidtransUIPaymentViewController!, paymentFailed error: (any Error)!) {
-    print("paymentFailed error: \(String(describing: error))")
-  }
-  
-  public func paymentViewController_paymentCanceled(_ viewController: MidtransUIPaymentViewController!) {
-    print("paymentCanceled")
-  }
+  public static var channel: FlutterMethodChannel?
   
   public static func register(with registrar: FlutterPluginRegistrar) {
-    let channel = FlutterMethodChannel(name: "midtrans_plugin", binaryMessenger: registrar.messenger())
+    channel = FlutterMethodChannel(name: "midtrans_plugin", binaryMessenger: registrar.messenger())
     let instance = MidtransIosPlugin()
-    registrar.addMethodCallDelegate(instance, channel: channel)
+    registrar.addMethodCallDelegate(instance, channel: channel!)
   }
   
   public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
@@ -44,14 +26,51 @@ public class MidtransIosPlugin: NSObject, FlutterPlugin, MidtransUIPaymentViewCo
     return UIApplication.shared.keyWindow?.rootViewController;
   }
   
+  private func onTransactionResult(_ result: TransactionResult) {
+    MidtransIosPlugin.channel?.invokeMethod("onTransactionResult", arguments: result.toJson())
+  }
+  
+  public func paymentViewController(_ viewController: MidtransUIPaymentViewController!, paymentPending result: MidtransTransactionResult!) {
+    print("paymendPending")
+    
+    let transactionResult: TransactionResult = TransactionResult(result: result)
+    onTransactionResult(transactionResult)
+  }
+  
+  public func paymentViewController(_ viewController: MidtransUIPaymentViewController!, paymentDeny result: MidtransTransactionResult!) {
+    print("paymentDeny")
+    
+    let transactionResult: TransactionResult = TransactionResult(result: result)
+    onTransactionResult(transactionResult)
+  }
+  
+  public func paymentViewController(_ viewController: MidtransUIPaymentViewController!, paymentSuccess result: MidtransTransactionResult!) {
+    print("paymentSuccess")
+    
+    let transactionResult: TransactionResult = TransactionResult(result: result)
+    onTransactionResult(transactionResult)
+  }
+  
+  public func paymentViewController(_ viewController: MidtransUIPaymentViewController!, paymentFailed error: (any Error)!) {
+    print("paymentFailed")
+    
+    let transactionResult: TransactionResult = TransactionResult(error: error)
+    onTransactionResult(transactionResult)
+  }
+  
+  public func paymentViewController_paymentCanceled(_ viewController: MidtransUIPaymentViewController!) {
+    print("paymentCanceled")
+    
+    let transactionResult: TransactionResult = TransactionResult(cancelled: true)
+    onTransactionResult(transactionResult)
+  }
+  
   func initialize(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
     print("initialize called")
     
     guard let arguments = call.arguments as? Dictionary<String, AnyObject>,
           let configArgs = arguments["config"] as? NSDictionary else {
-      result(FlutterError.init(code: "invalid_arguments",
-                               message: "config is required",
-                               details: nil))
+      result(FlutterError.init(code: "invalid_arguments", message: "config is required", details: nil))
       return
     }
     
