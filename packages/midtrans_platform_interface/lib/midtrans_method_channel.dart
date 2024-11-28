@@ -13,8 +13,11 @@ class MethodChannelMidtransPlugin extends MidtransPluginPlatform {
     try {
       final payload = {'config': config.toJson()};
       await methodChannel.invokeMethod('initialize', payload);
-    } catch (e) {
-      throw const MidtransFailure.unexpectedError();
+    } on PlatformException catch (e) {
+      throw MidtransFailure.unexpectedError(
+        code: e.code,
+        message: e.message,
+      );
     }
   }
 
@@ -23,8 +26,11 @@ class MethodChannelMidtransPlugin extends MidtransPluginPlatform {
     try {
       final payload = {'snapToken': snapToken};
       await methodChannel.invokeMethod('checkout', payload);
-    } catch (e) {
-      throw const MidtransFailure.unexpectedError();
+    } on PlatformException catch (e) {
+      throw MidtransFailure.unexpectedError(
+        code: e.code,
+        message: e.message,
+      );
     }
   }
 }
