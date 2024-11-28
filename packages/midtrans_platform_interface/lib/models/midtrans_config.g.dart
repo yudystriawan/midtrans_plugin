@@ -6,7 +6,7 @@ part of 'midtrans_config.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$MidtransConfigImpl _$$MidtransConfigImplFromJson(Map<String, dynamic> json) =>
+_$MidtransConfigImpl _$$MidtransConfigImplFromJson(Map json) =>
     _$MidtransConfigImpl(
       clientKey: json['clientKey'] as String,
       baseUrl: json['baseUrl'] as String,
