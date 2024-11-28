@@ -22,10 +22,9 @@ class MethodChannelMidtransPlugin extends MidtransPluginPlatform {
   }
 
   @override
-  Future<void> checkout(String snapToken) async {
+  Future<void> checkout(MidtransCheckoutPayload payload) async {
     try {
-      final payload = {'snapToken': snapToken};
-      await methodChannel.invokeMethod('checkout', payload);
+      await methodChannel.invokeMethod('checkout', payload.toJson());
     } on PlatformException catch (e) {
       throw MidtransFailure.unexpectedError(
         code: e.code,

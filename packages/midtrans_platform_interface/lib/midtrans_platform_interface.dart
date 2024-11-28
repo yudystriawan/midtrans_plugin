@@ -1,3 +1,4 @@
+import 'package:midtrans_platform_interface/models/midtrans_checkout_payload.dart';
 import 'package:midtrans_platform_interface/models/models.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
@@ -28,7 +29,7 @@ abstract class MidtransPluginPlatform extends PlatformInterface {
     throw UnimplementedError('initialize() has not been implemented.');
   }
 
-  Future<void> checkout(String snapToken) {
+  Future<void> checkout(MidtransCheckoutPayload payload) {
     throw UnimplementedError('checkout() has not been implemented.');
   }
 }
