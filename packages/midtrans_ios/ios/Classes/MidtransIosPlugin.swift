@@ -12,7 +12,7 @@ public class MidtransIosPlugin: NSObject, FlutterPlugin, MidtransUIPaymentViewCo
   }
   
   public func paymentViewController(_ viewController: MidtransUIPaymentViewController!, paymentSuccess result: MidtransTransactionResult!) {
-      print("paymentSuccess result: \(String(describing: result))")
+    print("paymentSuccess result: \(String(describing: result))")
   }
   
   public func paymentViewController(_ viewController: MidtransUIPaymentViewController!, paymentFailed error: (any Error)!) {
