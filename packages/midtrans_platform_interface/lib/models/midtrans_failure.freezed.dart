@@ -18,19 +18,19 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$MidtransFailure {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String? message) unexpectedError,
+    required TResult Function(String? code, String? message) unexpectedError,
     required TResult Function() initializeFailed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String? message)? unexpectedError,
+    TResult? Function(String? code, String? message)? unexpectedError,
     TResult? Function()? initializeFailed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String? message)? unexpectedError,
+    TResult Function(String? code, String? message)? unexpectedError,
     TResult Function()? initializeFailed,
     required TResult orElse(),
   }) =>
@@ -83,7 +83,7 @@ abstract class _$$UnexpectedErrorImplCopyWith<$Res> {
           $Res Function(_$UnexpectedErrorImpl) then) =
       __$$UnexpectedErrorImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({String? message});
+  $Res call({String? code, String? message});
 }
 
 /// @nodoc
@@ -99,9 +99,14 @@ class __$$UnexpectedErrorImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? code = freezed,
     Object? message = freezed,
   }) {
     return _then(_$UnexpectedErrorImpl(
+      code: freezed == code
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as String?,
       message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -113,14 +118,16 @@ class __$$UnexpectedErrorImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$UnexpectedErrorImpl implements _UnexpectedError {
-  const _$UnexpectedErrorImpl({this.message});
+  const _$UnexpectedErrorImpl({this.code, this.message});
 
+  @override
+  final String? code;
   @override
   final String? message;
 
   @override
   String toString() {
-    return 'MidtransFailure.unexpectedError(message: $message)';
+    return 'MidtransFailure.unexpectedError(code: $code, message: $message)';
   }
 
   @override
@@ -128,11 +135,12 @@ class _$UnexpectedErrorImpl implements _UnexpectedError {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$UnexpectedErrorImpl &&
+            (identical(other.code, code) || other.code == code) &&
             (identical(other.message, message) || other.message == message));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, message);
+  int get hashCode => Object.hash(runtimeType, code, message);
 
   /// Create a copy of MidtransFailure
   /// with the given fields replaced by the non-null parameter values.
@@ -146,30 +154,30 @@ class _$UnexpectedErrorImpl implements _UnexpectedError {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String? message) unexpectedError,
+    required TResult Function(String? code, String? message) unexpectedError,
     required TResult Function() initializeFailed,
   }) {
-    return unexpectedError(message);
+    return unexpectedError(code, message);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String? message)? unexpectedError,
+    TResult? Function(String? code, String? message)? unexpectedError,
     TResult? Function()? initializeFailed,
   }) {
-    return unexpectedError?.call(message);
+    return unexpectedError?.call(code, message);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String? message)? unexpectedError,
+    TResult Function(String? code, String? message)? unexpectedError,
     TResult Function()? initializeFailed,
     required TResult orElse(),
   }) {
     if (unexpectedError != null) {
-      return unexpectedError(message);
+      return unexpectedError(code, message);
     }
     return orElse();
   }
@@ -207,9 +215,10 @@ class _$UnexpectedErrorImpl implements _UnexpectedError {
 }
 
 abstract class _UnexpectedError implements MidtransFailure {
-  const factory _UnexpectedError({final String? message}) =
+  const factory _UnexpectedError({final String? code, final String? message}) =
       _$UnexpectedErrorImpl;
 
+  String? get code;
   String? get message;
 
   /// Create a copy of MidtransFailure
@@ -260,7 +269,7 @@ class _$InitializeFailedImpl implements _InitializeFailed {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String? message) unexpectedError,
+    required TResult Function(String? code, String? message) unexpectedError,
     required TResult Function() initializeFailed,
   }) {
     return initializeFailed();
@@ -269,7 +278,7 @@ class _$InitializeFailedImpl implements _InitializeFailed {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String? message)? unexpectedError,
+    TResult? Function(String? code, String? message)? unexpectedError,
     TResult? Function()? initializeFailed,
   }) {
     return initializeFailed?.call();
@@ -278,7 +287,7 @@ class _$InitializeFailedImpl implements _InitializeFailed {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String? message)? unexpectedError,
+    TResult Function(String? code, String? message)? unexpectedError,
     TResult Function()? initializeFailed,
     required TResult orElse(),
   }) {
