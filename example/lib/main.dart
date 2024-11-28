@@ -197,9 +197,15 @@ class MyApp extends StatelessWidget {
                         itemDetails: [
                           const MidtransItemDetails(
                             id: 'product_a',
-                            price: 10000,
+                            price: 5000,
                             quantity: 1,
                             name: 'Product A',
+                          ),
+                          const MidtransItemDetails(
+                            id: 'product_b',
+                            price: 5000,
+                            quantity: 1,
+                            name: 'Product B',
                           ),
                         ],
                       );
