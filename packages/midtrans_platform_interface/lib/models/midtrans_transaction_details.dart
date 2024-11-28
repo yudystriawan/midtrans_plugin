@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'midtrans_transaction_details.freezed.dart';
 part 'midtrans_transaction_details.g.dart';
 
-@Freezed(unionValueCase: FreezedUnionCase.snake)
+@freezed
 class MidtransTransactionDetails with _$MidtransTransactionDetails {
   const factory MidtransTransactionDetails({
     required String orderId,

@@ -6,7 +6,8 @@ part of 'midtrans_item_details.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$MidtransItemDetailsImpl _$$MidtransItemDetailsImplFromJson(Map json) =>
+_$MidtransItemDetailsImpl _$$MidtransItemDetailsImplFromJson(
+        Map<String, dynamic> json) =>
     _$MidtransItemDetailsImpl(
       id: json['id'] as String?,
       price: (json['price'] as num).toInt(),
@@ -14,7 +15,7 @@ _$MidtransItemDetailsImpl _$$MidtransItemDetailsImplFromJson(Map json) =>
       name: json['name'] as String,
       brand: json['brand'] as String?,
       category: json['category'] as String?,
-      merchantName: json['merchantName'] as String?,
+      merchantName: json['merchant_name'] as String?,
       url: json['url'] as String?,
     );
 
@@ -27,6 +28,6 @@ Map<String, dynamic> _$$MidtransItemDetailsImplToJson(
       'name': instance.name,
       'brand': instance.brand,
       'category': instance.category,
-      'merchantName': instance.merchantName,
+      'merchant_name': instance.merchantName,
       'url': instance.url,
     };

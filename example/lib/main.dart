@@ -186,7 +186,7 @@ class MyApp extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () async {
                     try {
-                      await Midtrans.platform
+                      await Midtrans.instance
                           .checkout('868fbea0-b6ee-4e2e-bf18-9c1536bc671e');
                     } on MidtransFailure catch (e) {
                       final message = e.when(

@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'midtrans_item_details.freezed.dart';
 part 'midtrans_item_details.g.dart';
 
-@Freezed(unionValueCase: FreezedUnionCase.snake)
+@freezed
 class MidtransItemDetails with _$MidtransItemDetails {
   const factory MidtransItemDetails({
     String? id,
