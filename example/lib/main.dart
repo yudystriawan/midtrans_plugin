@@ -157,7 +157,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   const config = MidtransConfig(
-    clientKey: 'Mid-client-6p1ddEHvfy4GHy2Y',
+    clientKey: 'SB-Mid-client-V8p1M-DRoTXmhvsz',
     baseUrl: 'https://midtrans-server.firebaseapp.com/api/',
     isProduction: false,
     enableLog: false,
@@ -228,48 +228,36 @@ class MyApp extends StatelessWidget {
 
                     return Column(
                       children: [
-                        Row(
-                          children: [
-                            const Text('Transaction ID: '),
-                            const Spacer(),
-                            Text(data.transactionId ?? ''),
-                          ],
+                        TransactionResultRow(
+                          label: 'Transaction ID: ',
+                          data: data.transactionId ?? '',
                         ),
-                        Row(
-                          children: [
-                            const Text('Status: '),
-                            const Spacer(),
-                            Text(data.status ?? ''),
-                          ],
+                        const SizedBox(height: 4),
+                        TransactionResultRow(
+                          label: 'Status: ',
+                          data: data.status ?? '',
                         ),
-                        Row(
-                          children: [
-                            const Text('Payment Type: '),
-                            const Spacer(),
-                            Text(data.paymentType ?? ''),
-                          ],
+                        const SizedBox(height: 4),
+                        TransactionResultRow(
+                          label: 'Payment Type: ',
+                          data: data.paymentType ?? '',
                         ),
-                        Row(
-                          children: [
-                            const Text('Message: '),
-                            const Spacer(),
-                            Text(data.message ?? ''),
-                          ],
+                        const SizedBox(height: 4),
+                        TransactionResultRow(
+                          label: 'Message: ',
+                          data: data.message ?? '',
                         ),
-                        Row(
-                          children: [
-                            const Text('Is Cancelled: '),
-                            const Spacer(),
-                            Text(data.isCancelled.toString()),
-                          ],
+                        const SizedBox(height: 4),
+                        TransactionResultRow(
+                          label: 'Is Canceled: ',
+                          data: data.isCancelled.toString(),
                         ),
-                        Row(
-                          children: [
-                            const Text('Is Failed: '),
-                            const Spacer(),
-                            Text(data.isFailed.toString()),
-                          ],
+                        const SizedBox(height: 4),
+                        TransactionResultRow(
+                          label: 'Is Failed: ',
+                          data: data.isFailed.toString(),
                         ),
+                        const SizedBox(height: 4),
                         TextButton.icon(
                           onPressed: () {
                             Clipboard.setData(
@@ -292,6 +280,34 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class TransactionResultRow extends StatelessWidget {
+  const TransactionResultRow({
+    super.key,
+    required this.label,
+    required this.data,
+  });
+
+  final String label;
+  final String data;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(label),
+        const Spacer(),
+        Expanded(
+          child: Text(
+            data,
+            textAlign: TextAlign.end,
+          ),
+        ),
+      ],
     );
   }
 }
