@@ -9,13 +9,13 @@ part of 'midtrans_transaction_details.dart';
 _$MidtransTransactionDetailsImpl _$$MidtransTransactionDetailsImplFromJson(
         Map<String, dynamic> json) =>
     _$MidtransTransactionDetailsImpl(
-      orderId: json['order_id'] as String,
-      grossAmount: (json['gross_amount'] as num).toInt(),
+      orderId: json['orderId'] as String,
+      grossAmount: (json['grossAmount'] as num).toInt(),
     );
 
 Map<String, dynamic> _$$MidtransTransactionDetailsImplToJson(
         _$MidtransTransactionDetailsImpl instance) =>
     <String, dynamic>{
-      'order_id': instance.orderId,
-      'gross_amount': instance.grossAmount,
+      'orderId': instance.orderId,
+      'grossAmount': instance.grossAmount,
     };

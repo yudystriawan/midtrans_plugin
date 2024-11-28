@@ -15,7 +15,7 @@ _$MidtransItemDetailsImpl _$$MidtransItemDetailsImplFromJson(
       name: json['name'] as String,
       brand: json['brand'] as String?,
       category: json['category'] as String?,
-      merchantName: json['merchant_name'] as String?,
+      merchantName: json['merchantName'] as String?,
       url: json['url'] as String?,
     );
 
@@ -28,6 +28,6 @@ Map<String, dynamic> _$$MidtransItemDetailsImplToJson(
       'name': instance.name,
       'brand': instance.brand,
       'category': instance.category,
-      'merchant_name': instance.merchantName,
+      'merchantName': instance.merchantName,
       'url': instance.url,
     };
