@@ -33,9 +33,9 @@ class Midtrans {
 
   static MidtransConfig get config => _config;
 
-  Future<void> checkout(String snapToken) async {
+  Future<void> checkout(MidtransCheckoutPayload payload) async {
     try {
-      await platform.checkout(snapToken);
+      await platform.checkout(payload);
     } on MidtransFailure {
       rethrow;
     } catch (e) {

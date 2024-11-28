@@ -186,8 +186,23 @@ class MyApp extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () async {
                     try {
-                      await Midtrans.instance
-                          .checkout('868fbea0-b6ee-4e2e-bf18-9c1536bc671e');
+                      final payload = MidtransCheckoutPayload(
+                        transactionDetails: MidtransTransactionDetails(
+                          orderId:
+                              DateTime.now().millisecondsSinceEpoch.toString(),
+                          grossAmount: 10000,
+                        ),
+                        itemDetails: [
+                          const MidtransItemDetails(
+                            id: 'product_a',
+                            price: 10000,
+                            quantity: 1,
+                            name: 'Product A',
+                          ),
+                        ],
+                      );
+
+                      await Midtrans.instance.checkout(payload);
                     } on MidtransFailure catch (e) {
                       final message = e.when(
                         unexpectedError: (code, message) =>
