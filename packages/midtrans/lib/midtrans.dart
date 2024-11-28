@@ -13,7 +13,7 @@ class Midtrans {
   static Future<void> initialize(MidtransConfig config) async {
     try {
       _instance = Midtrans._internal(config);
-      await instance.platform.initialize(config);
+      await instance._platform.initialize(config);
     } catch (e) {
       throw const MidtransFailure.initializeFailed();
     }
@@ -27,7 +27,7 @@ class Midtrans {
     return _instance!;
   }
 
-  MidtransPluginPlatform get platform {
+  MidtransPluginPlatform get _platform {
     return MidtransPluginPlatform.instance;
   }
 
@@ -35,11 +35,15 @@ class Midtrans {
 
   Future<void> checkout(MidtransCheckoutPayload payload) async {
     try {
-      await platform.checkout(payload);
+      await _platform.checkout(payload);
     } on MidtransFailure {
       rethrow;
     } catch (e) {
       throw const MidtransFailure.unexpectedError();
     }
+  }
+
+  Stream<MidtransTransactionResult> get onTransactionResult {
+    return _platform.onTransactionResult.stream;
   }
 }

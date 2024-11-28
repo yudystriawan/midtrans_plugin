@@ -13,6 +13,13 @@ class MethodChannelMidtransPlugin extends MidtransPluginPlatform {
     try {
       final payload = {'config': config.toJson()};
       await methodChannel.invokeMethod('initialize', payload);
+
+      methodChannel.setMethodCallHandler((call) async {
+        if (call.method == 'onTransactionResult') {
+          final result = MidtransTransactionResult.fromJson(call.arguments);
+          onTransactionResult.add(result);
+        }
+      });
     } on PlatformException catch (e) {
       throw MidtransFailure.unexpectedError(
         code: e.code,

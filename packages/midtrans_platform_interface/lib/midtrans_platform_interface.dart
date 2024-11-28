@@ -1,4 +1,5 @@
-import 'package:midtrans_platform_interface/models/midtrans_checkout_payload.dart';
+import 'dart:async';
+
 import 'package:midtrans_platform_interface/models/models.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
@@ -24,6 +25,9 @@ abstract class MidtransPluginPlatform extends PlatformInterface {
     PlatformInterface.verifyToken(instance, _token);
     _instance = instance;
   }
+
+  final StreamController<MidtransTransactionResult> onTransactionResult =
+      StreamController<MidtransTransactionResult>.broadcast();
 
   Future<void> initialize(MidtransConfig config) {
     throw UnimplementedError('initialize() has not been implemented.');
