@@ -7,9 +7,11 @@ part 'midtrans_transaction_result.g.dart';
 class MidtransTransactionResult with _$MidtransTransactionResult {
   const factory MidtransTransactionResult({
     String? transactionId,
-    required String status,
-    required String paymentType,
+    String? status,
+    String? paymentType,
     String? message,
+    @Default(false) bool isCancelled,
+    @Default(false) bool isFailed,
   }) = _MidtransTransactionResult;
 
   factory MidtransTransactionResult.fromJson(Map<String, dynamic> json) =>

@@ -22,9 +22,11 @@ MidtransTransactionResult _$MidtransTransactionResultFromJson(
 /// @nodoc
 mixin _$MidtransTransactionResult {
   String? get transactionId => throw _privateConstructorUsedError;
-  String get status => throw _privateConstructorUsedError;
-  String get paymentType => throw _privateConstructorUsedError;
+  String? get status => throw _privateConstructorUsedError;
+  String? get paymentType => throw _privateConstructorUsedError;
   String? get message => throw _privateConstructorUsedError;
+  bool get isCancelled => throw _privateConstructorUsedError;
+  bool get isFailed => throw _privateConstructorUsedError;
 
   /// Serializes this MidtransTransactionResult to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -44,9 +46,11 @@ abstract class $MidtransTransactionResultCopyWith<$Res> {
   @useResult
   $Res call(
       {String? transactionId,
-      String status,
-      String paymentType,
-      String? message});
+      String? status,
+      String? paymentType,
+      String? message,
+      bool isCancelled,
+      bool isFailed});
 }
 
 /// @nodoc
@@ -66,27 +70,37 @@ class _$MidtransTransactionResultCopyWithImpl<$Res,
   @override
   $Res call({
     Object? transactionId = freezed,
-    Object? status = null,
-    Object? paymentType = null,
+    Object? status = freezed,
+    Object? paymentType = freezed,
     Object? message = freezed,
+    Object? isCancelled = null,
+    Object? isFailed = null,
   }) {
     return _then(_value.copyWith(
       transactionId: freezed == transactionId
           ? _value.transactionId
           : transactionId // ignore: cast_nullable_to_non_nullable
               as String?,
-      status: null == status
+      status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as String,
-      paymentType: null == paymentType
+              as String?,
+      paymentType: freezed == paymentType
           ? _value.paymentType
           : paymentType // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String?,
+      isCancelled: null == isCancelled
+          ? _value.isCancelled
+          : isCancelled // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isFailed: null == isFailed
+          ? _value.isFailed
+          : isFailed // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -102,9 +116,11 @@ abstract class _$$MidtransTransactionResultImplCopyWith<$Res>
   @useResult
   $Res call(
       {String? transactionId,
-      String status,
-      String paymentType,
-      String? message});
+      String? status,
+      String? paymentType,
+      String? message,
+      bool isCancelled,
+      bool isFailed});
 }
 
 /// @nodoc
@@ -123,27 +139,37 @@ class __$$MidtransTransactionResultImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? transactionId = freezed,
-    Object? status = null,
-    Object? paymentType = null,
+    Object? status = freezed,
+    Object? paymentType = freezed,
     Object? message = freezed,
+    Object? isCancelled = null,
+    Object? isFailed = null,
   }) {
     return _then(_$MidtransTransactionResultImpl(
       transactionId: freezed == transactionId
           ? _value.transactionId
           : transactionId // ignore: cast_nullable_to_non_nullable
               as String?,
-      status: null == status
+      status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as String,
-      paymentType: null == paymentType
+              as String?,
+      paymentType: freezed == paymentType
           ? _value.paymentType
           : paymentType // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String?,
+      isCancelled: null == isCancelled
+          ? _value.isCancelled
+          : isCancelled // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isFailed: null == isFailed
+          ? _value.isFailed
+          : isFailed // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -153,9 +179,11 @@ class __$$MidtransTransactionResultImplCopyWithImpl<$Res>
 class _$MidtransTransactionResultImpl implements _MidtransTransactionResult {
   const _$MidtransTransactionResultImpl(
       {this.transactionId,
-      required this.status,
-      required this.paymentType,
-      this.message});
+      this.status,
+      this.paymentType,
+      this.message,
+      this.isCancelled = false,
+      this.isFailed = false});
 
   factory _$MidtransTransactionResultImpl.fromJson(Map<String, dynamic> json) =>
       _$$MidtransTransactionResultImplFromJson(json);
@@ -163,15 +191,21 @@ class _$MidtransTransactionResultImpl implements _MidtransTransactionResult {
   @override
   final String? transactionId;
   @override
-  final String status;
+  final String? status;
   @override
-  final String paymentType;
+  final String? paymentType;
   @override
   final String? message;
+  @override
+  @JsonKey()
+  final bool isCancelled;
+  @override
+  @JsonKey()
+  final bool isFailed;
 
   @override
   String toString() {
-    return 'MidtransTransactionResult(transactionId: $transactionId, status: $status, paymentType: $paymentType, message: $message)';
+    return 'MidtransTransactionResult(transactionId: $transactionId, status: $status, paymentType: $paymentType, message: $message, isCancelled: $isCancelled, isFailed: $isFailed)';
   }
 
   @override
@@ -184,13 +218,17 @@ class _$MidtransTransactionResultImpl implements _MidtransTransactionResult {
             (identical(other.status, status) || other.status == status) &&
             (identical(other.paymentType, paymentType) ||
                 other.paymentType == paymentType) &&
-            (identical(other.message, message) || other.message == message));
+            (identical(other.message, message) || other.message == message) &&
+            (identical(other.isCancelled, isCancelled) ||
+                other.isCancelled == isCancelled) &&
+            (identical(other.isFailed, isFailed) ||
+                other.isFailed == isFailed));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, transactionId, status, paymentType, message);
+  int get hashCode => Object.hash(runtimeType, transactionId, status,
+      paymentType, message, isCancelled, isFailed);
 
   /// Create a copy of MidtransTransactionResult
   /// with the given fields replaced by the non-null parameter values.
@@ -212,9 +250,11 @@ class _$MidtransTransactionResultImpl implements _MidtransTransactionResult {
 abstract class _MidtransTransactionResult implements MidtransTransactionResult {
   const factory _MidtransTransactionResult(
       {final String? transactionId,
-      required final String status,
-      required final String paymentType,
-      final String? message}) = _$MidtransTransactionResultImpl;
+      final String? status,
+      final String? paymentType,
+      final String? message,
+      final bool isCancelled,
+      final bool isFailed}) = _$MidtransTransactionResultImpl;
 
   factory _MidtransTransactionResult.fromJson(Map<String, dynamic> json) =
       _$MidtransTransactionResultImpl.fromJson;
@@ -222,11 +262,15 @@ abstract class _MidtransTransactionResult implements MidtransTransactionResult {
   @override
   String? get transactionId;
   @override
-  String get status;
+  String? get status;
   @override
-  String get paymentType;
+  String? get paymentType;
   @override
   String? get message;
+  @override
+  bool get isCancelled;
+  @override
+  bool get isFailed;
 
   /// Create a copy of MidtransTransactionResult
   /// with the given fields replaced by the non-null parameter values.
