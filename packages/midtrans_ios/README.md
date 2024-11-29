@@ -1,4 +1,4 @@
-# midtrans_ios
+# midtrans_plugin
 
 A new Flutter plugin project.
 

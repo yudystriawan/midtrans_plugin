@@ -1,5 +1,5 @@
 name: midtrans_ios
-description: "A new Flutter plugin project."
+description: "Midtrans implementation for iOS"
 version: 0.0.1
 
 environment:
@@ -9,7 +9,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  plugin_platform_interface: ^2.0.2
 
 dev_dependencies:
   flutter_test:
@@ -20,4 +19,4 @@ flutter:
   plugin:
     platforms:
       ios:
-        pluginClass: MidtransIosPlugin
+        pluginClass: MidtransPlugin

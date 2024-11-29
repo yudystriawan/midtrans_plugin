@@ -2,12 +2,12 @@ import Flutter
 import UIKit
 import MidtransKit
 
-public class MidtransIosPlugin: NSObject, FlutterPlugin, MidtransUIPaymentViewControllerDelegate {
+public class MidtransPlugin: NSObject, FlutterPlugin, MidtransUIPaymentViewControllerDelegate {
   public static var channel: FlutterMethodChannel?
   
   public static func register(with registrar: FlutterPluginRegistrar) {
     channel = FlutterMethodChannel(name: "midtrans_plugin", binaryMessenger: registrar.messenger())
-    let instance = MidtransIosPlugin()
+    let instance = MidtransPlugin()
     registrar.addMethodCallDelegate(instance, channel: channel!)
   }
   
@@ -27,7 +27,7 @@ public class MidtransIosPlugin: NSObject, FlutterPlugin, MidtransUIPaymentViewCo
   }
   
   private func onTransactionResult(_ result: TransactionResult) {
-    MidtransIosPlugin.channel?.invokeMethod("onTransactionResult", arguments: result.toJson())
+    MidtransPlugin.channel?.invokeMethod("onTransactionResult", arguments: result.toJson())
   }
   
   public func paymentViewController(_ viewController: MidtransUIPaymentViewController!, paymentPending result: MidtransTransactionResult!) {
