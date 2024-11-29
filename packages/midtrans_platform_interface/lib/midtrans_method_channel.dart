@@ -49,4 +49,17 @@ class MethodChannelMidtransPlugin extends MidtransPluginPlatform {
       );
     }
   }
+
+  @override
+  Future<void> checkoutWithToken(String token) async {
+    try {
+      final payload = {'token': token};
+      await methodChannel.invokeMethod('checkoutWithToken', payload);
+    } on PlatformException catch (e) {
+      throw MidtransFailure.unexpectedError(
+        code: 'checkoutWithToken',
+        message: e.toString(),
+      );
+    }
+  }
 }

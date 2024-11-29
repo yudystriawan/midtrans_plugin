@@ -36,4 +36,8 @@ abstract class MidtransPluginPlatform extends PlatformInterface {
   Future<void> checkout(MidtransCheckoutPayload payload) {
     throw UnimplementedError('checkout() has not been implemented.');
   }
+
+  Future<void> checkoutWithToken(String token) {
+    throw UnimplementedError('checkoutWithToken() has not been implemented.');
+  }
 }

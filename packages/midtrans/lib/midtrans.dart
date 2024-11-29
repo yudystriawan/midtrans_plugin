@@ -33,6 +33,10 @@ class Midtrans {
 
   static MidtransConfig get config => _config;
 
+  Stream<MidtransTransactionResult> get onTransactionResult {
+    return _platform.onTransactionResult.stream;
+  }
+
   Future<void> checkout(MidtransCheckoutPayload payload) async {
     try {
       await _platform.checkout(payload);
@@ -43,7 +47,13 @@ class Midtrans {
     }
   }
 
-  Stream<MidtransTransactionResult> get onTransactionResult {
-    return _platform.onTransactionResult.stream;
+  Future<void> checkoutWithToken(String token) async {
+    try {
+      await _platform.checkoutWithToken(token);
+    } on MidtransFailure {
+      rethrow;
+    } catch (e) {
+      throw const MidtransFailure.unexpectedError();
+    }
   }
 }
